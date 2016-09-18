@@ -1,0 +1,102 @@
+<!-----
+		 ON CALL ENTRY EDIT FORM
+		 										--------->
+<html ng-app="TrackerApp">
+<head>
+
+<meta charset="utf-8">
+<title>Sysco On-Call Assistant</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- load jquery -->
+<script
+	src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<!-- load angular -->
+<script src="js/core.js"></script>
+<script src="js/controllers/main.js"></script>
+<!-- load up our controller -->
+<script src="js/services/oncalls.js"></script>
+<!-- load our On call service -->
+<script src="js/core.js"></script>
+<!-- load our main application -->
+
+<script>
+	
+</script>
+
+<!------------- Link the CSS  --------------------------->
+<link rel="stylesheet" type="text/css" href="mainstyle.css">
+<!-- load our custom css -->
+</head>
+<body ng-controller="mainController">
+<form name="oncallForm">
+				<table>
+					<tr>
+						<td><label>Incident</label></td>
+						<td><input type="text" name="incident"
+							ng-model="formData.incident" required></td>
+						<span style="color: red"
+							ng-show="formData.incident.$error.required && !formData.$pristine">
+							<span ng-show="oncallForm.incident.$error.required">Incident
+								number is required for on call entry.</span>
+						</span>
+					</tr>
+
+					<tr>
+						<td><label>Date (MM/DD/YY)</label></td>
+						<td><input type="text" name="date" ng-model="formData.date"
+							required></td>
+					</tr>
+
+					<tr>
+						<td><label>Time (HH:MM AM/PM)</label></td>
+						<td><input type="text" name="time" ng-model="formData.time"
+							required></td>
+					</tr>
+
+					<tr>
+						<td><label>On Call Developer</label></td>
+						<td><input type="text" name="oncalldeveloper"
+							ng-model="formData.oncalldeveloper" required></td>
+					</tr>
+
+					<tr>
+						<td><label>OPCO</label></td>
+						<td><input type="text" name="opco" ng-model="formData.opco"
+							required></td>
+					</tr>
+
+					<tr>
+						<td><label>Application</label></td>
+						<td><input type="text" name="application"
+							ng-model="formData.application" required></td>
+					</tr>
+
+					<tr>
+						<td><label>Issue Description</label></td>
+						<td><textarea name="issuedescription"
+								ng-model="formData.issuedescription"
+								style="width: 700px; height: 150px;" required> </textarea></td>
+					</tr>
+
+					<tr>
+						<td><label>Solution</label></td>
+						<td><textarea type="text" name="solution"
+								ng-model="formData.solution"
+								style="width: 700px; height: 150px;" required> </textarea>></td>
+					</tr>
+
+					<tr>
+						<td><label>Follow-up Action Required</label></td>
+						<td><textarea type="text" name="followupactionrequired"
+								ng-model="formData.followupactionrequired"
+								style="width: 700px; height: 150px;" required> </textarea>></td>
+					</tr>
+
+				</table>
+				<button ng-click="createOnCall()"
+					ng-disabled="oncallForm.incident.$dirty && oncallForm.incident.$invalid">Submit</button>
+				<button ng-click="reset()">Reset</button>
+			</form>
+</body>
+</html>

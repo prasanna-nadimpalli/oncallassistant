@@ -1,0 +1,167 @@
+<!-----
+		 ON CALL ENTRIES IN TABULAR FORMAT,
+		 NEW ENTRY COLLAPSIBLE FORM
+		 										--------->
+<html ng-app="TrackerApp">
+<head>
+
+<meta charset="utf-8">
+<title>Sysco On-Call Assistant</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- load jquery -->
+<script
+	src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<!-- load angular -->
+<script src="js/core.js"></script>
+<script src="js/controllers/main.js"></script>
+<!-- load up our controller -->
+<script src="js/services/oncalls.js"></script>
+<!-- load our On call service -->
+<script src="js/core.js"></script>
+<!-- load our main application -->
+
+<script>
+	
+</script>
+
+<!------------- Link the CSS  --------------------------->
+<link rel="stylesheet" type="text/css" href="mainstyle.css">
+<!-- load our custom css -->
+</head>
+<body ng-controller="mainController">
+	<!-------------Search Box --------------------------->
+	<div class="SearchBox">
+		<input class="box-blue" ng-model="query"
+			placeholder="Type search term or keyword e.g.invoice etc."
+			type="text" size="80" /> <br> <br>
+	</div>
+
+		<!------------- Show the NEW ENTRY form --------------------------->
+	<div ng-init="showentry=false">
+		<label class="control-label col-lg-4"> <a href=""
+			ng-show="!showentry" ng-click="showentry=!showentry">+</a> <a href=""
+			ng-show="showentry" ng-click="showentry=!showentry">-</a> <a href=""
+			ng-click="showentry=!showentry">New On Call Entry</a>
+		</label>
+		<div ng-show="showentry">
+			<form name="oncallForm">
+				<table>
+
+					<tr>
+						<td><label>Incident</label></td>
+						<td><input type="text" name="incident"
+							ng-model="formData.incident" required></td>
+						<span style="color: red"
+							ng-show="formData.incident.$error.required && !formData.$pristine">
+							<span ng-show="oncallForm.incident.$error.required">Incident
+								number is required for on call entry.</span>
+						</span>
+					</tr>
+
+					<tr>
+						<td><label>Date (MM/DD/YY)</label></td>
+						<td><input type="text" name="date" ng-model="formData.date"
+							required></td>
+					</tr>
+
+					<tr>
+						<td><label>Time (HH:MM AM/PM)</label></td>
+						<td><input type="text" name="time" ng-model="formData.time"
+							required></td>
+					</tr>
+
+					<tr>
+						<td><label>On Call Developer</label></td>
+						<td><input type="text" name="oncalldeveloper"
+							ng-model="formData.oncalldeveloper" required></td>
+					</tr>
+
+					<tr>
+						<td><label>OPCO</label></td>
+						<td><input type="text" name="opco" ng-model="formData.opco"
+							required></td>
+					</tr>
+
+					<tr>
+						<td><label>Application</label></td>
+						<td><input type="text" name="application"
+							ng-model="formData.application" required></td>
+					</tr>
+
+					<tr>
+						<td><label>Issue Description</label></td>
+						<td><textarea name="issuedescription"
+								ng-model="formData.issuedescription"
+								style="width: 700px; height: 150px;" required> </textarea></td>
+					</tr>
+
+					<tr>
+						<td><label>Solution</label></td>
+						<td><textarea type="text" name="solution"
+								ng-model="formData.solution"
+								style="width: 700px; height: 150px;" required> </textarea>></td>
+					</tr>
+
+					<tr>
+						<td><label>Follow-up Action Required</label></td>
+						<td><textarea type="text" name="followupactionrequired"
+								ng-model="formData.followupactionrequired"
+								style="width: 700px; height: 150px;" required> </textarea>></td>
+					</tr>
+
+				</table>
+				<button ng-click="createOnCall()"
+					ng-disabled="oncallForm.incident.$dirty && oncallForm.incident.$invalid">Submit</button>
+				<button ng-click="reset()">Reset</button>
+			</form>
+		</div>
+	</div>
+
+	<br>
+	<br>
+	<!-------------Display table and make it sort-able by Header field --------------------------->
+	<div style="overflow-x: auto;">
+		<table>
+			<tr>
+				<th><a href=""
+					ng-click="sortField ='incident'; reverse = !reverse">Incident
+						ID</a></th>
+				<th><a href=""
+					ng-click="sortField = 'date'; reverse = !reverse">Date
+						(MM/DD/YY)</a></th>
+				<th><a href=""
+					ng-click="sortField = 'time'; reverse = !reverse">Time</a></th>
+				<th><a href=""
+					ng-click="sortField = 'oncalldeveloper'; reverse = !reverse">On
+						Call Developer</a></th>
+				<th><a href=""
+					ng-click="sortField = 'opco'; reverse = !reverse">OPCO</a></th>
+				<th><a href=""
+					ng-click="sortField = 'application'; reverse = !reverse">Application</a></th>
+				<th><a href=""
+					ng-click="sortField = 'issuedescription'; reverse = !reverse">Issue
+						Description</a></th>
+				<th><a href=""
+					ng-click="sortField = 'solution'; reverse = !reverse">Solution</a></th>
+				<th><a href=""
+					ng-click="sortField = 'followupactionrequired'; reverse = !reverse">Followup
+						Action Required</a></th>
+
+			</tr>
+			<tr
+				ng-repeat="incidentRecord in oncalls| filter:query | orderBy:sortField:reverse">
+				<td>{{incidentRecord.incident}}</td>
+				<td>{{incidentRecord.date}}</td>
+				<td>{{incidentRecord.time}}</td>
+				<td>{{incidentRecord.oncalldeveloper}}</td>
+				<td>{{incidentRecord.opco}}</td>
+				<td>{{incidentRecord.application}}</td>
+				<td>{{incidentRecord.issuedescription}}</td>
+				<td>{{incidentRecord.solution}}</td>
+				<td>{{incidentRecord.followupactionrequired}}</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

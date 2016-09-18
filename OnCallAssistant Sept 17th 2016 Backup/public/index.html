@@ -1,0 +1,71 @@
+
+<!-- ASSIGN ANGULAR MODULE -->
+<html ng-app="OnCallApp">
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile view port -->
+
+    <title>Node/Angular OnCall Assistant App</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; }
+        #todo-list              { margin-bottom:30px; }
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script><!-- load angular -->
+        <script src="js/core.js"></script> <!-- load our main application -->
+    <script src="js/controllers/main.js"></script> <!-- load up our controller -->
+    <script src="js/services/oncalls.js"></script> <!-- load our on call entries service -->
+
+
+
+</head>
+<!-- SET THE CONTROLLER AND GET ALL ONCALL ENTRIES -->
+<body ng-controller="mainController">
+    <div class="container">
+
+        <!-- HEADER AND ONCALL ENTRY COUNT -->
+        <div class="jumbotron text-center">
+            <h1>My On Call Entries List <span class="label label-info">{{oncalls.length}}</span></h1>
+        </div>
+
+        <!-- ONCALL ENTRY LIST -->
+        <div id="oncall-list" class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+
+                <!-- LOOP OVER THE ONCALL ENTRIES IN $scope.oncalls -->
+                <div class="checkbox" ng-repeat="oncallentries in oncalls">
+                    <label>
+                        <input type="checkbox" ng-click="deleteOnCall(oncallentries._id)"> {{ oncallentries.text }}
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FORM TO CREATE ONCALL ENTRY -->
+        <div id="oncall-form" class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <form>
+                    <div class="form-group">
+
+                        <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+                        <input type="text" class="form-control input-lg text-center" placeholder="I want to detect/capture dark matter" ng-model="formData.text">
+                    </div>
+
+                    <!-- createOnCall() WILL CREATE NEW ON CALL ENTRIES -->
+                    <button type="submit" class="btn btn-primary btn-lg" ng-click="createOnCall()">Add</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
