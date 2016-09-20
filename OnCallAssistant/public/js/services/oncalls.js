@@ -13,6 +13,9 @@ angular.module('oncallService', [])
             },
             delete : function(id) {
                 return $http.delete('/api/oncalls/' + id);
+            },
+            edit : function(id) {
+                return $http.get('/api/oncalls/' + id);
             }
         }
     });

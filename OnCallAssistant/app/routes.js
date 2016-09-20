@@ -66,8 +66,8 @@ module.exports = function(app) {
 		});
 	});
 
-	// update an on call entry
-	app.get('/api/oncalls/:id', function(req, res) {
+	// update an on call entry by ID
+	app.put('/api/oncalls/:id', function(req, res) {
 
 		var upddate = req.body.date;
 		var time = req.body.time;
@@ -82,7 +82,7 @@ module.exports = function(app) {
 		OnCall.findById(req.id, function (err, oncalls) {
 
 			OnCall.update({
-				_id : req.params.oncall_id
+				_id : req.params.id
 			}, function(err, oncall) {
 				if (err)
 					res.send(err);
@@ -94,6 +94,20 @@ module.exports = function(app) {
 						res.json(oncalls);
 				});
 			});
+		});
+	});
+	
+	// retrieve an on call entry by ID
+	app.get('/api/oncalls/:id', function(req, res) {
+
+		// use mongoose to get on-call entry by id
+		OnCall.findById(req.params.id, function (err, oncalls){
+
+			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
+			if (err)
+				res.send(err)
+
+				res.json(oncalls); // return all on-call entries in JSON format
 		});
 	});
 };

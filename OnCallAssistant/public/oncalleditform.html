@@ -6,35 +6,21 @@
 
 <meta charset="utf-8">
 <title>Sysco On-Call Assistant</title>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<!-- load jquery -->
-<script
-	src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-<!-- load angular -->
-<script src="js/core.js"></script>
-<script src="js/controllers/main.js"></script>
-<!-- load up our controller -->
-<script src="js/services/oncalls.js"></script>
-<!-- load our On call service -->
-<script src="js/core.js"></script>
-<!-- load our main application -->
 
-<script>
-	
-</script>
 
 <!------------- Link the CSS  --------------------------->
 <link rel="stylesheet" type="text/css" href="mainstyle.css">
 <!-- load our custom css -->
 </head>
 <body ng-controller="mainController">
-<form name="oncallForm">
+
+<!------------- Form Elements --------------------------->
+<form name="oncalleditForm">
 				<table>
 					<tr>
 						<td><label>Incident</label></td>
 						<td><input type="text" name="incident"
-							ng-model="formData.incident" required></td>
+							ng-model="oncalledit.incident" required></td>
 						<span style="color: red"
 							ng-show="formData.incident.$error.required && !formData.$pristine">
 							<span ng-show="oncallForm.incident.$error.required">Incident
@@ -44,59 +30,59 @@
 
 					<tr>
 						<td><label>Date (MM/DD/YY)</label></td>
-						<td><input type="text" name="date" ng-model="formData.date"
+						<td><input type="text" name="date" ng-model="oncalledit.date"
 							required></td>
 					</tr>
 
 					<tr>
 						<td><label>Time (HH:MM AM/PM)</label></td>
-						<td><input type="text" name="time" ng-model="formData.time"
+						<td><input type="text" name="time" ng-model="oncalledit.time"
 							required></td>
 					</tr>
 
 					<tr>
 						<td><label>On Call Developer</label></td>
 						<td><input type="text" name="oncalldeveloper"
-							ng-model="formData.oncalldeveloper" required></td>
+							ng-model="oncalledit.oncalldeveloper" required></td>
 					</tr>
 
 					<tr>
 						<td><label>OPCO</label></td>
-						<td><input type="text" name="opco" ng-model="formData.opco"
+						<td><input type="text" name="opco" ng-model="oncalledit.opco"
 							required></td>
 					</tr>
 
 					<tr>
 						<td><label>Application</label></td>
 						<td><input type="text" name="application"
-							ng-model="formData.application" required></td>
+							ng-model="eoncalledit.application" required></td>
 					</tr>
 
 					<tr>
 						<td><label>Issue Description</label></td>
 						<td><textarea name="issuedescription"
-								ng-model="formData.issuedescription"
+								ng-model="oncalledit.issuedescription"
 								style="width: 700px; height: 150px;" required> </textarea></td>
 					</tr>
 
 					<tr>
 						<td><label>Solution</label></td>
 						<td><textarea type="text" name="solution"
-								ng-model="formData.solution"
+								ng-model="oncalledit.solution"
 								style="width: 700px; height: 150px;" required> </textarea>></td>
 					</tr>
 
 					<tr>
 						<td><label>Follow-up Action Required</label></td>
 						<td><textarea type="text" name="followupactionrequired"
-								ng-model="formData.followupactionrequired"
+								ng-model="oncalledit.followupactionrequired"
 								style="width: 700px; height: 150px;" required> </textarea>></td>
 					</tr>
 
 				</table>
 				<button ng-click="createOnCall()"
-					ng-disabled="oncallForm.incident.$dirty && oncallForm.incident.$invalid">Submit</button>
-				<button ng-click="reset()">Reset</button>
+					ng-disabled="oncalleditForm.incident.$dirty && oncalleditForm.incident.$invalid">Submit</button>
+				<button ng-click="editreset()">Reset</button>
 			</form>
 </body>
 </html>

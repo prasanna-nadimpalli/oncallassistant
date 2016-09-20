@@ -7,23 +7,6 @@
 
 <meta charset="utf-8">
 <title>Sysco On-Call Assistant</title>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<!-- load jquery -->
-<script
-	src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-<!-- load angular -->
-<script src="js/core.js"></script>
-<script src="js/controllers/main.js"></script>
-<!-- load up our controller -->
-<script src="js/services/oncalls.js"></script>
-<!-- load our On call service -->
-<script src="js/core.js"></script>
-<!-- load our main application -->
-
-<script>
-	
-</script>
 
 <!------------- Link the CSS  --------------------------->
 <link rel="stylesheet" type="text/css" href="mainstyle.css">
@@ -37,7 +20,7 @@
 			type="text" size="80" /> <br> <br>
 	</div>
 
-		<!------------- Show the NEW ENTRY form --------------------------->
+	<!------------- Show the NEW ENTRY form --------------------------->
 	<div ng-init="showentry=false">
 		<label class="control-label col-lg-4"> <a href=""
 			ng-show="!showentry" ng-click="showentry=!showentry">+</a> <a href=""
@@ -160,6 +143,7 @@
 				<td>{{incidentRecord.issuedescription}}</td>
 				<td>{{incidentRecord.solution}}</td>
 				<td>{{incidentRecord.followupactionrequired}}</td>
+				<td><button ng-click='getOnCall(incidentRecord._id, "/editform")'>edit</button></td>
 			</tr>
 		</table>
 	</div>

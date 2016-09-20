@@ -2,7 +2,7 @@
 
 angular.module('oncallController', ['ngRoute'])
 
-.controller('mainController', function($scope, $http) {
+.controller('mainController', function($scope, $http, $location) {
 	$scope.formData = {};
 	$scope.master = {"date" : " ",
 			"time" : " ",
@@ -46,10 +46,28 @@ angular.module('oncallController', ['ngRoute'])
 		});
 	};
 
+	// get an on call entry for editing and route to edit page (using $location)
+	$scope.getOnCall = function(id,hash) {
+		$http.get('/api/oncalls/' + id)
+		.success(function(data) {
+			$scope.oncalledit = data;
+			$location.path(hash);
+		})
+		.error(function(data) {
+			console.log('Error: ' + data);
+		});
+	};
+
 	// reset form values to blanks
 	$scope.reset = function() {
 		$scope.formData = angular.copy($scope.master);
 	};
+
+	// reset edit form values to blanks
+	$scope.editreset = function() {
+		$scope.editData = angular.copy($scope.master);
+	};
+
 	$scope.reset();
 
 	$scope.sortField = 'incident';
@@ -67,6 +85,6 @@ angular.module('oncallController', ['ngRoute'])
 	})
 	.otherwise({
 		redirectTo:'oncalltable.html'
-			});
+	});
 });
 
