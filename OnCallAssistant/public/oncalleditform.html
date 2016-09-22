@@ -12,77 +12,98 @@
 <link rel="stylesheet" type="text/css" href="mainstyle.css">
 <!-- load our custom css -->
 </head>
-<body ng-controller="mainController">
+<body ng-controller="editController">
 
-<!------------- Form Elements --------------------------->
-<form name="oncalleditForm">
-				<table>
-					<tr>
-						<td><label>Incident</label></td>
-						<td><input type="text" name="incident"
-							ng-model="oncalledit.incident" required></td>
-						<span style="color: red"
-							ng-show="formData.incident.$error.required && !formData.$pristine">
-							<span ng-show="oncallForm.incident.$error.required">Incident
-								number is required for on call entry.</span>
-						</span>
-					</tr>
+	<!------------- Form Elements --------------------------->
+	<form name="oncalleditForm">
+		<table>
+			<tr>
+				<td><label>Incident</label></td>
+				<td><input type="text" name="incident"
+					ng-model="oncalleditData.incident" required></td>
+				<span style="color: red"
+					ng-show="oncalleditData.incident.$error.required && !oncalleditData.$pristine">
+					<span ng-show="oncalleditForm.incident.$error.required">Incident
+						number is required for on call entry.</span>
+				</span>
+			</tr>
 
-					<tr>
-						<td><label>Date (MM/DD/YY)</label></td>
-						<td><input type="text" name="date" ng-model="oncalledit.date"
-							required></td>
-					</tr>
+			<tr>
+				<td><label>Date (MM/DD/YY)</label></td>
+			<td><div pickadate="" ng-model="oncalleditData.date"></div></td>
+			
+			</tr>
 
-					<tr>
-						<td><label>Time (HH:MM AM/PM)</label></td>
-						<td><input type="text" name="time" ng-model="oncalledit.time"
-							required></td>
-					</tr>
+			<tr>
+				<td><label>Time (HH:MM AM/PM)</label></td>
+				<td><input type="text" name="time" bs-timepicker
+					ng-model="oncalleditData.time"
+					required></td>
+			</tr>
 
-					<tr>
-						<td><label>On Call Developer</label></td>
-						<td><input type="text" name="oncalldeveloper"
-							ng-model="oncalledit.oncalldeveloper" required></td>
-					</tr>
+			<tr>
+				<td><label>On Call Developer</label></td>
+				<td><input type="text" name="oncalldeveloper"
+					ng-model="oncalleditData.oncalldeveloper" required></td>
+			</tr>
 
-					<tr>
-						<td><label>OPCO</label></td>
-						<td><input type="text" name="opco" ng-model="oncalledit.opco"
-							required></td>
-					</tr>
+			<tr>
+				<td><label>OPCO</label></td>
+				<td><input type="text" name="opco"
+					ng-model="oncalleditData.opco" required></td>
+			</tr>
 
-					<tr>
-						<td><label>Application</label></td>
-						<td><input type="text" name="application"
-							ng-model="eoncalledit.application" required></td>
-					</tr>
+			<tr>
+				<td><label>Application</label></td>
+				<td><input type="text" name="application"
+					ng-model="oncalleditData.application" required></td>
+			</tr>
 
-					<tr>
-						<td><label>Issue Description</label></td>
-						<td><textarea name="issuedescription"
-								ng-model="oncalledit.issuedescription"
-								style="width: 700px; height: 150px;" required> </textarea></td>
-					</tr>
+			<tr>
+				<td><label>Issue Description</label></td>
+				<td><textarea name="issuedescription"
+						ng-model="oncalleditData.issuedescription"
+						style="width: 700px; height: 150px;" required> </textarea></td>
+			</tr>
 
-					<tr>
-						<td><label>Solution</label></td>
-						<td><textarea type="text" name="solution"
-								ng-model="oncalledit.solution"
-								style="width: 700px; height: 150px;" required> </textarea>></td>
-					</tr>
+			<tr>
+				<td><label>Solution</label></td>
+				<td><textarea type="text" name="solution"
+						ng-model="oncalleditData.solution"
+						style="width: 700px; height: 150px;" required> </textarea></td>
+			</tr>
 
-					<tr>
-						<td><label>Follow-up Action Required</label></td>
-						<td><textarea type="text" name="followupactionrequired"
-								ng-model="oncalledit.followupactionrequired"
-								style="width: 700px; height: 150px;" required> </textarea>></td>
-					</tr>
+			<tr>
+				<td><label>Follow-up Action Required</label></td>
+				<td><textarea type="text" name="followupactionrequired"
+						ng-model="oncalleditData.followupactionrequired"
+						style="width: 700px; height: 150px;" required> </textarea></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><label>{{updatestatus}}</label></td>
+			</tr>
 
-				</table>
-				<button ng-click="createOnCall()"
-					ng-disabled="oncalleditForm.incident.$dirty && oncalleditForm.incident.$invalid">Submit</button>
-				<button ng-click="editreset()">Reset</button>
-			</form>
+		</table>
+		<button type="button" class="btn btn-default btn-sm"
+			ng-click="updateOnCall(oncalleditData._id)"
+			ng-disabled="oncalleditForm.incident.$dirty && oncalleditForm.incident.$invalid">
+			<span class="glyphicon glyphicon-ok"
+				style="font-size: 30px; color: green;"></span>Submit
+		</button>
+
+		<button type="button" class="btn btn-default btn-sm"
+			ng-click="deleteOnCall(oncalleditData._id)">
+			<span class="glyphicon glyphicon-trash"
+				style="font-size: 30px; color: red;"></span>Delete
+		</button>
+
+		<button type="button" class="btn btn-default btn-sm"
+			ng-click="goback('/')">
+			<span class="glyphicon glyphicon-hand-left" style="font-size: 30px;"></span>
+			Back
+		</button>
+
+	</form>
 </body>
 </html>

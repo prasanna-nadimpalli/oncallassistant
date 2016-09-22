@@ -13,6 +13,13 @@
 <!-- load our custom css -->
 </head>
 <body ng-controller="mainController">
+
+	<!-------------Page Header--------------------------->
+	<header>
+		<h1>Sysco Canada - On Call Tracker</h1>
+	</header>
+	<br>
+	<br>
 	<!-------------Search Box --------------------------->
 	<div class="SearchBox">
 		<input class="box-blue" ng-model="query"
@@ -23,8 +30,10 @@
 	<!------------- Show the NEW ENTRY form --------------------------->
 	<div ng-init="showentry=false">
 		<label class="control-label col-lg-4"> <a href=""
-			ng-show="!showentry" ng-click="showentry=!showentry">+</a> <a href=""
-			ng-show="showentry" ng-click="showentry=!showentry">-</a> <a href=""
+			ng-show="!showentry" ng-click="showentry=!showentry"><span
+				class="glyphicon glyphicon-plus"></span></a> <a href=""
+			ng-show="showentry" ng-click="showentry=!showentry"><span
+				class="glyphicon glyphicon-minus"></span></a> <a href=""
 			ng-click="showentry=!showentry">New On Call Entry</a>
 		</label>
 		<div ng-show="showentry">
@@ -83,20 +92,35 @@
 						<td><label>Solution</label></td>
 						<td><textarea type="text" name="solution"
 								ng-model="formData.solution"
-								style="width: 700px; height: 150px;" required> </textarea>></td>
+								style="width: 700px; height: 150px;" required> </textarea></td>
 					</tr>
 
 					<tr>
 						<td><label>Follow-up Action Required</label></td>
 						<td><textarea type="text" name="followupactionrequired"
 								ng-model="formData.followupactionrequired"
-								style="width: 700px; height: 150px;" required> </textarea>></td>
+								style="width: 700px; height: 150px;" required> </textarea></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><label>{{updatestatus}}</label></td>
 					</tr>
 
 				</table>
-				<button ng-click="createOnCall()"
-					ng-disabled="oncallForm.incident.$dirty && oncallForm.incident.$invalid">Submit</button>
-				<button ng-click="reset()">Reset</button>
+
+
+				<button type="button" class="btn btn-default btn-sm"
+					ng-click="createOnCall()"
+					ng-disabled="oncallForm.incident.$dirty && oncallForm.incident.$invalid">
+					<span class="glyphicon glyphicon-ok"
+						style="font-size: 30px; color: green;"></span>Submit
+				</button>
+
+				<button type="button" class="btn btn-default btn-sm"
+					ng-click="reset()">
+					<span class="glyphicon glyphicon-refresh"
+						style="font-size: 30px; color: blue;"></span>Refresh
+				</button>
 			</form>
 		</div>
 	</div>
@@ -143,7 +167,10 @@
 				<td>{{incidentRecord.issuedescription}}</td>
 				<td>{{incidentRecord.solution}}</td>
 				<td>{{incidentRecord.followupactionrequired}}</td>
-				<td><button ng-click='getOnCall(incidentRecord._id, "/editform")'>edit</button></td>
+				<td><button type="button" class="btn btn-default btn-sm"
+						ng-click='getOnCall(incidentRecord._id, "/editform/"+incidentRecord._id)'>
+						<span class="glyphicon glyphicon-pencil" style="font-size: 30px;"></span>
+					</button></td>
 			</tr>
 		</table>
 	</div>

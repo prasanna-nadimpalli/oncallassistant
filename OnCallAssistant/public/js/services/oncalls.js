@@ -16,6 +16,9 @@ angular.module('oncallService', [])
             },
             edit : function(id) {
                 return $http.get('/api/oncalls/' + id);
+            },
+            update : function(id) {
+                return $http.put('/api/oncalls/' + id);
             }
         }
     });

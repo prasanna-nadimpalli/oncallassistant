@@ -50,10 +50,10 @@ module.exports = function(app) {
 	});
 
 	// delete a on call entry
-	app.delete('/api/oncalls/:oncall_id', function(req, res) {
+	app.delete('/api/oncalls/:id', function(req, res) {
 		OnCall.remove({
-			_id : req.params.oncall_id
-		}, function(err, oncall) {
+			_id : req.params.id
+		}, function(err, oncalls) {
 			if (err)
 				res.send(err);
 
@@ -61,6 +61,7 @@ module.exports = function(app) {
 			OnCall.find(function(err, oncalls) {
 				if (err)
 					res.send(err)
+					
 					res.json(oncalls);
 			});
 		});
@@ -69,21 +70,18 @@ module.exports = function(app) {
 	// update an on call entry by ID
 	app.put('/api/oncalls/:id', function(req, res) {
 
-		var upddate = req.body.date;
-		var time = req.body.time;
-		var oncalldeveloper = req.body.oncalldeveloper;
-		var opco = req.body.opco;
-		var application = req.body.application;
-		var issuedescription = req.body.issuedescription;
-		var incident = req.body.incident;
-		var solution = req.body.solution;
-		var followupactionrequired = req.body.followupactionrequired;   
+		var update = req.body.date;
+		var uptime = req.body.time;
+		var uponcalldeveloper = req.body.oncalldeveloper;
+		var upopco = req.body.opco;
+		var upapplication = req.body.application;
+		var upissuedescription = req.body.issuedescription;
+		var upincident = req.body.incident;
+		var upsolution = req.body.solution;
+		var upfollowupactionrequired = req.body.followupactionrequired;   
 
-		OnCall.findById(req.id, function (err, oncalls) {
+		OnCall.findOneAndUpdate({_id:req.params.id}, req.body, function (err, oncalls) {
 
-			OnCall.update({
-				_id : req.params.id
-			}, function(err, oncall) {
 				if (err)
 					res.send(err);
 
@@ -94,7 +92,6 @@ module.exports = function(app) {
 						res.json(oncalls);
 				});
 			});
-		});
 	});
 	
 	// retrieve an on call entry by ID
