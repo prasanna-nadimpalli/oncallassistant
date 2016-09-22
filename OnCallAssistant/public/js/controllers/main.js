@@ -1,7 +1,7 @@
 //js/controllers/main.js
 
 angular.module('oncallController', ['ngRoute'])
-
+// Controller for landing page
 .controller('mainController', function($scope, $http, $location) {
 	$scope.formData = {};
 	$scope.master = {"application" : " ",
@@ -62,7 +62,7 @@ angular.module('oncallController', ['ngRoute'])
 })
 //Controller for edit form
 .controller('editController', function($scope, $http, $location, $routeParams) {
-	
+
 	// when submitting the add form, send the entry to the node API
 	$scope.updateOnCall = function(id) {
 		$http.put('/api/oncalls/' + id, $scope.oncalleditData)
@@ -79,12 +79,12 @@ angular.module('oncallController', ['ngRoute'])
 	$http.get('/api/oncalls/' + $routeParams.id)
 	.success(function(data) {
 		$scope.oncalleditData = data;
-		
+
 	})
 	.error(function(data) {
 		console.log('Error: ' + data);
 	});
-	
+
 	// delete a on call entry 
 	$scope.deleteOnCall = function(id) {
 		$http.delete('/api/oncalls/' + id)
@@ -96,12 +96,12 @@ angular.module('oncallController', ['ngRoute'])
 			console.log('Error: ' + data);
 		});
 	};
-	
+
 	// go back
 	$scope.goback = function(hash) {
 		$location.path(hash);
 	};
-	
+
 })
 //Angular Router logic
 .config(function($routeProvider) {
@@ -117,4 +117,17 @@ angular.module('oncallController', ['ngRoute'])
 	.otherwise({
 		redirectTo:'oncalltable.html'
 	});
-});
+})
+.directive('ngReallyClick', [function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            element.bind('click', function() {
+                var message = attrs.ngReallyMessage;
+                if (message && confirm(message)) {
+                    scope.$apply(attrs.ngReallyClick);
+                }
+            });
+        }
+    }
+}]);

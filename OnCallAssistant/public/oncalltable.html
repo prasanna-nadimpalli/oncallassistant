@@ -37,7 +37,7 @@
 			ng-click="showentry=!showentry">New On Call Entry</a>
 		</label>
 		<div ng-show="showentry">
-			<form name="oncallForm">
+			<form name="oncallForm" novalidate>
 				<table>
 
 					<tr>
@@ -45,8 +45,8 @@
 						<td><input type="text" name="incident"
 							ng-model="formData.incident" required></td>
 						<span style="color: red"
-							ng-show="formData.incident.$error.required && !formData.$pristine">
-							<span ng-show="oncallForm.incident.$error.required">Incident
+							ng-show="oncallForm.incident.$dirty && oncallForm.incident.$invalid"> <span
+							style="color: red" ng-show="oncallForm.incident.$error.required">Incident
 								number is required for on call entry.</span>
 						</span>
 					</tr>
@@ -160,7 +160,8 @@
 				ng-repeat="incidentRecord in oncalls| filter:query | orderBy:sortField:reverse">
 				<td>{{incidentRecord.incident}}</td>
 				<td>{{incidentRecord.date}}</td>
-				<td>{{incidentRecord.time}}</td>
+				<!-- 				<td>{{incidentRecord.time}}</td> -->
+				<td ng-bind="incidentRecord.time | date:'h:mm a'"</td>
 				<td>{{incidentRecord.oncalldeveloper}}</td>
 				<td>{{incidentRecord.opco}}</td>
 				<td>{{incidentRecord.application}}</td>

@@ -22,23 +22,23 @@
 				<td><input type="text" name="incident"
 					ng-model="oncalleditData.incident" required></td>
 				<span style="color: red"
-					ng-show="oncalleditData.incident.$error.required && !oncalleditData.$pristine">
-					<span ng-show="oncalleditForm.incident.$error.required">Incident
+					ng-show="oncalleditForm.incident.$dirty && oncalleditForm.incident.$invalid">
+					<span style="color: red"
+					ng-show="oncalleditForm.incident.$error.required">Incident
 						number is required for on call entry.</span>
 				</span>
 			</tr>
 
 			<tr>
 				<td><label>Date (MM/DD/YY)</label></td>
-			<td><div pickadate="" ng-model="oncalleditData.date"></div></td>
-			
+				<td><div pickadate="" ng-model="oncalleditData.date"></div></td>
+
 			</tr>
 
 			<tr>
 				<td><label>Time (HH:MM AM/PM)</label></td>
 				<td><input type="text" name="time" bs-timepicker
-					ng-model="oncalleditData.time"
-					required></td>
+					ng-model="oncalleditData.time" required></td>
 			</tr>
 
 			<tr>
@@ -93,7 +93,8 @@
 		</button>
 
 		<button type="button" class="btn btn-default btn-sm"
-			ng-click="deleteOnCall(oncalleditData._id)">
+			ng-really-message="Are you sure that this entry is no longer required?"
+			ng-really-click="deleteOnCall(oncalleditData._id)">
 			<span class="glyphicon glyphicon-trash"
 				style="font-size: 30px; color: red;"></span>Delete
 		</button>
