@@ -1,5 +1,5 @@
 <!-----
-		 ON CALL ENTRY EDIT FORM
+		 ON CALL NEW ENTRY FORM
 		 										--------->
 <html ng-app="TrackerApp">
 <head>
@@ -12,39 +12,38 @@
 <link rel="stylesheet" type="text/css" href="mainstyle.css">
 <!-- load our custom css -->
 </head>
-<body ng-controller="editController">
+<body ng-controller="newentryController">
 
 	<!------------- Form Elements --------------------------->
-	<form name="oncalleditForm">
+	<form name="oncallForm">
 		<table>
 			<tr>
 				<td><label>Incident</label></td>
 				<td><input type="text" name="incident"
-					ng-model="oncalleditData.incident" required></td>
+					ng-model="formData.incident" required></td>
 				<span style="color: red"
-					ng-show="oncalleditForm.incident.$dirty && oncalleditForm.incident.$invalid">
+					ng-show="oncallForm.incident.$dirty && oncallForm.incident.$invalid">
 					<span style="color: red"
-					ng-show="oncalleditForm.incident.$error.required">Incident
+					ng-show="oncallForm.incident.$error.required">Incident
 						number is required for on call entry.</span>
 				</span>
 			</tr>
 
 			<tr>
 				<td><label>Date (MM/DD/YY)</label></td>
-				<td><div pickadate="" ng-model="oncalleditData.date"></div></td>
-
+				<td><div pickadate="" ng-model="formData.date"></div></td>
 			</tr>
 
 			<tr>
 				<td><label>Time (HH:MM AM/PM)</label></td>
 				<td><input type="text" name="time" bs-timepicker
-					ng-model="oncalleditData.time" required></td>
+					ng-model="formData.time" required></td>
 			</tr>
 
 			<tr>
 				<td><label>On Call Developer</label></td>
 				<td><input type="text" name="oncalldeveloper"
-					ng-model="oncalleditData.oncalldeveloper" 
+					ng-model="formData.oncalldeveloper"
 					uib-typeahead="oncalld.oncalldeveloper for oncalld in oncalls | unique: 'oncalldeveloper'
 					| filter:$viewValue 					
 					| limitTo:20"
@@ -52,8 +51,7 @@
 			</tr>
 			<tr>
 				<td><label>OPCO</label></td>
-				<td><input type="text" name="opco"
-					ng-model="oncalleditData.opco" 
+				<td><input type="text" name="opco" ng-model="formData.opco"
 					uib-typeahead="oncalloc.opco for oncalloc in oncalls | unique: 'opco'
 					| filter:$viewValue 					
 					| limitTo:40"
@@ -63,7 +61,7 @@
 			<tr>
 				<td><label>Application</label></td>
 				<td><input type="text" name="application"
-					ng-model="oncalleditData.application" 
+					ng-model="formData.application"
 					uib-typeahead="oncallap.application for oncallap in oncalls | unique: 'application'
 					| filter:$viewValue 					
 					| limitTo:50"
@@ -73,47 +71,37 @@
 			<tr>
 				<td><label>Issue Description</label></td>
 				<td><textarea name="issuedescription"
-						ng-model="oncalleditData.issuedescription"
+						ng-model="formData.issuedescription"
 						style="width: 700px; height: 150px;" required> </textarea></td>
 			</tr>
 
 			<tr>
 				<td><label>Solution</label></td>
 				<td><textarea type="text" name="solution"
-						ng-model="oncalleditData.solution"
-						style="width: 700px; height: 150px;" required> </textarea></td>
+						ng-model="formData.solution" style="width: 700px; height: 150px;"
+						required> </textarea></td>
 			</tr>
 
 			<tr>
 				<td><label>Follow-up Action Required</label></td>
 				<td><textarea type="text" name="followupactionrequired"
-						ng-model="oncalleditData.followupactionrequired"
+						ng-model="formData.followupactionrequired"
 						style="width: 700px; height: 150px;" required> </textarea></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><label>{{updatestatus}}</label></td>
 			</tr>
 
 		</table>
 		<button type="button" class="btn btn-default btn-sm"
-			ng-click="updateOnCall(oncalleditData._id)"
-			ng-disabled="oncalleditForm.incident.$dirty && oncalleditForm.incident.$invalid">
+			ng-click="createOnCall()"
+			ng-disabled="oncallForm.incident.$dirty && oncallForm.incident.$invalid">
 			<span class="glyphicon glyphicon-ok"
 				style="font-size: 30px; color: green;"></span>Submit
 		</button>
 
 		<button type="button" class="btn btn-default btn-sm"
-			ng-really-message="Are you sure that this entry is no longer required?"
-			ng-really-click="deleteOnCall(oncalleditData._id)">
-			<span class="glyphicon glyphicon-trash"
-				style="font-size: 30px; color: red;"></span>Delete
-		</button>
-
-		<button type="button" class="btn btn-default btn-sm"
-			ng-click="goback('/')">
-			<span class="glyphicon glyphicon-hand-left" style="font-size: 30px;"></span>
-			Back
+			ng-really-message="Pressing the refresh button makes you loose all data on this page. Do you want to proceed?"
+			ng-really-click="reset()">
+			<span class="glyphicon glyphicon-refresh"
+				style="font-size: 30px; color: blue;"></span>Refresh
 		</button>
 
 	</form>

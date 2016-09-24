@@ -27,106 +27,7 @@
 			type="text" size="80" /> <br> <br>
 	</div>
 
-	<!------------- Show the NEW ENTRY form --------------------------->
-	<div ng-init="showentry=false">
-		<label class="control-label col-lg-4"> <a href=""
-			ng-show="!showentry" ng-click="showentry=!showentry"><span
-				class="glyphicon glyphicon-plus"></span></a> <a href=""
-			ng-show="showentry" ng-click="showentry=!showentry"><span
-				class="glyphicon glyphicon-minus"></span></a> <a href=""
-			ng-click="showentry=!showentry">New On Call Entry</a>
-		</label>
-		<div ng-show="showentry">
-			<form name="oncallForm" novalidate>
-				<table>
 
-					<tr>
-						<td><label>Incident</label></td>
-						<td><input type="text" name="incident"
-							ng-model="formData.incident" required></td>
-						<span style="color: red"
-							ng-show="oncallForm.incident.$dirty && oncallForm.incident.$invalid"> <span
-							style="color: red" ng-show="oncallForm.incident.$error.required">Incident
-								number is required for on call entry.</span>
-						</span>
-					</tr>
-
-					<tr>
-						<td><label>Date (MM/DD/YY)</label></td>
-						<td><input type="text" name="date" ng-model="formData.date"
-							required></td>
-					</tr>
-
-					<tr>
-						<td><label>Time (HH:MM AM/PM)</label></td>
-						<td><input type="text" name="time" ng-model="formData.time"
-							required></td>
-					</tr>
-
-					<tr>
-						<td><label>On Call Developer</label></td>
-						<td><input type="text" name="oncalldeveloper"
-							ng-model="formData.oncalldeveloper" required></td>
-					</tr>
-
-					<tr>
-						<td><label>OPCO</label></td>
-						<td><input type="text" name="opco" ng-model="formData.opco"
-							required></td>
-					</tr>
-
-					<tr>
-						<td><label>Application</label></td>
-						<td><input type="text" name="application"
-							ng-model="formData.application" required></td>
-					</tr>
-
-					<tr>
-						<td><label>Issue Description</label></td>
-						<td><textarea name="issuedescription"
-								ng-model="formData.issuedescription"
-								style="width: 700px; height: 150px;" required> </textarea></td>
-					</tr>
-
-					<tr>
-						<td><label>Solution</label></td>
-						<td><textarea type="text" name="solution"
-								ng-model="formData.solution"
-								style="width: 700px; height: 150px;" required> </textarea></td>
-					</tr>
-
-					<tr>
-						<td><label>Follow-up Action Required</label></td>
-						<td><textarea type="text" name="followupactionrequired"
-								ng-model="formData.followupactionrequired"
-								style="width: 700px; height: 150px;" required> </textarea></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><label>{{updatestatus}}</label></td>
-					</tr>
-
-				</table>
-
-
-				<button type="button" class="btn btn-default btn-sm"
-					ng-click="createOnCall()"
-					ng-disabled="oncallForm.incident.$dirty && oncallForm.incident.$invalid">
-					<span class="glyphicon glyphicon-ok"
-						style="font-size: 30px; color: green;"></span>Submit
-				</button>
-
-				<button type="button" class="btn btn-default btn-sm"
-					ng-click="reset()">
-					<span class="glyphicon glyphicon-refresh"
-						style="font-size: 30px; color: blue;"></span>Refresh
-				</button>
-			</form>
-		</div>
-	</div>
-
-	<br>
-	<br>
 	<!-------------Display table and make it sort-able by Header field --------------------------->
 	<div style="overflow-x: auto;">
 		<table>
@@ -154,7 +55,10 @@
 				<th><a href=""
 					ng-click="sortField = 'followupactionrequired'; reverse = !reverse">Followup
 						Action Required</a></th>
-
+				<th><button type="button" class="btn btn-default btn-sm"
+						ng-click='getnewentryForm("/newentryform")'>
+						<span class="glyphicon glyphicon-plus" style="font-size: 30px;"></span>
+				</button></th>
 			</tr>
 			<tr
 				ng-repeat="incidentRecord in oncalls| filter:query | orderBy:sortField:reverse">
