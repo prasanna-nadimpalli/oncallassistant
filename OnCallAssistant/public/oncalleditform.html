@@ -18,87 +18,136 @@
 	<form name="oncalleditForm">
 		<table>
 			<tr>
-				<td><label>Incident</label></td>
+				<td><label>Incident *</label></td>
 				<td><input type="text" name="incident"
-					ng-model="oncalleditData.incident" required></td>
-				<span style="color: red"
+					ng-model="oncalleditData.incident" ng-only-number
+					data-max-decimal-points=0 required> <span
+					style="color: red"
 					ng-show="oncalleditForm.incident.$dirty && oncalleditForm.incident.$invalid">
+						<span style="color: red"
+						ng-show="oncalleditForm.incident.$error.required">Incident
+							number is required for on call entry.</span>
+				</span></td>
+			</tr>
+
+			<tr>
+				<td><label>Date (MM/DD/YY)*</label></td>
+				<td><div pickadate="" ng-model="oncalleditData.date"></div></td>
+				<span style="color: red"
+					ng-show="oncalleditForm.date.$dirty && oncalleditForm.date.$invalid">
 					<span style="color: red"
-					ng-show="oncalleditForm.incident.$error.required">Incident
-						number is required for on call entry.</span>
+					ng-show="oncalleditForm.date.$error.required">Date is
+						required for on call entry.</span>
 				</span>
 			</tr>
 
 			<tr>
-				<td><label>Date (MM/DD/YY)</label></td>
-				<td><div pickadate="" ng-model="oncalleditData.date"></div></td>
-
-			</tr>
-
-			<tr>
-				<td><label>Time (HH:MM AM/PM)</label></td>
+				<td><label>Time (HH:MM AM/PM)*</label></td>
 				<td><input type="text" name="time" bs-timepicker
 					ng-model="oncalleditData.time" required></td>
+				<span style="color: red"
+					ng-show="oncalleditForm.time.$dirty && oncalleditForm.time.$invalid">
+					<span style="color: red"
+					ng-show="oncalleditForm.time.$error.required">Time is
+						required for on call entry.</span>
+				</span>
 			</tr>
 
 			<tr>
-				<td><label>On Call Developer</label></td>
+				<td><label>On-Call Developer*</label></td>
 				<td><input type="text" name="oncalldeveloper"
-					ng-model="oncalleditData.oncalldeveloper" 
+					ng-model="oncalleditData.oncalldeveloper"
 					uib-typeahead="oncalld.oncalldeveloper for oncalld in oncalls | unique: 'oncalldeveloper'
 					| filter:$viewValue 					
 					| limitTo:20"
-					required></td>
+					required> <span style="color: red"
+					ng-show="oncalleditForm.oncalldeveloper.$dirty && oncalleditForm.oncalldeveloper.$invalid">
+						<span style="color: red"
+						ng-show="oncalleditForm.oncalldeveloper.$error.required">On-call
+							developer is required for on call entry.</span>
+				</span></td>
 			</tr>
 			<tr>
-				<td><label>OPCO</label></td>
+				<td><label>OPCO*</label></td>
 				<td><input type="text" name="opco"
-					ng-model="oncalleditData.opco" 
+					ng-model="oncalleditData.opco"
 					uib-typeahead="oncalloc.opco for oncalloc in oncalls | unique: 'opco'
 					| filter:$viewValue 					
-					| limitTo:40"
+					| limitTo:10"
 					required></td>
+				<span style="color: red"
+					ng-show="oncalleditForm.opco.$dirty && oncalleditForm.opco.$invalid">
+					<span style="color: red" ng-show="oncalleditForm.opco.$error.required">OPCO
+						is required for on call entry. Enter 'nil' if not applicable</span>
+				</span>
 			</tr>
 
 			<tr>
-				<td><label>Application</label></td>
+				<td><label>Application*</label></td>
 				<td><input type="text" name="application"
-					ng-model="oncalleditData.application" 
+					ng-model="oncalleditData.application"
 					uib-typeahead="oncallap.application for oncallap in oncalls | unique: 'application'
 					| filter:$viewValue 					
-					| limitTo:50"
-					required></td>
+					| limitTo:10"
+					required></td><span style="color: red"
+					ng-show="oncalleditForm.application.$dirty && oncalleditForm.application.$invalid">
+					<span style="color: red"
+					ng-show="oncalleditForm.application.$error.required">Application is required for on call entry.</span>
+				</span> 
 			</tr>
 
 			<tr>
-				<td><label>Issue Description</label></td>
+				<td><label>Issue Description*</label></td>
 				<td><textarea name="issuedescription"
 						ng-model="oncalleditData.issuedescription"
-						style="width: 700px; height: 150px;" required> </textarea></td>
+						style="width: 700px; height: 150px;" required> </textarea> <span
+					style="color: red"
+					ng-show="oncalleditForm.issuedescription.$dirty && oncalleditForm.issuedescription.$invalid">
+						<span style="color: red"
+						ng-show="oncalleditForm.issuedescription.$error.required">
+							Issue Description is required for on call entry.</span>
+				</span></td>
 			</tr>
 
 			<tr>
-				<td><label>Solution</label></td>
+				<td><label>Solution/Action Taken*</label></td>
 				<td><textarea type="text" name="solution"
 						ng-model="oncalleditData.solution"
-						style="width: 700px; height: 150px;" required> </textarea></td>
+						style="width: 700px; height: 150px;" required> </textarea><span
+					style="color: red"
+					ng-show="oncalleditForm.solution.$dirty && oncalleditForm.solution.$invalid">
+						<span style="color: red"
+						ng-show="oncalleditForm.solution.$error.required">
+							Solution/Action Taken is required for on call entry.</span>
+				</span></td>
 			</tr>
 
 			<tr>
-				<td><label>Follow-up Action Required</label></td>
+				<td><label>Follow-up Action Required*</label></td>
 				<td><textarea type="text" name="followupactionrequired"
 						ng-model="oncalleditData.followupactionrequired"
-						style="width: 700px; height: 150px;" required> </textarea></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><label>{{updatestatus}}</label></td>
+						style="width: 700px; height: 150px;" required> </textarea> <span
+					style="color: red"
+					ng-show="oncalleditForm.followupactionrequired.$dirty && oncalleditForm.followupactionrequired.$invalid">
+						<span style="color: red"
+						ng-show="oncalleditForm.followupactionrequired.$error.required">
+							Follow-up Action needs mention for on call entry (enter 'nil' if
+							not applicable)</span>
+				</span></td>
 			</tr>
 
 		</table>
 		<button type="button" class="btn btn-default btn-sm"
 			ng-click="updateOnCall(oncalleditData._id)"
-			ng-disabled="oncalleditForm.incident.$dirty && oncalleditForm.incident.$invalid">
+			ng-disabled="oncalleditForm.incident.$dirty && oncalleditForm.incident.$invalid ||
+			oncalleditForm.oncalldeveloper.$dirty && oncalleditForm.oncalldeveloper.$invalid ||
+			oncalleditForm.date.$dirty && oncalleditForm.date.$invalid ||
+			oncalleditForm.time.$dirty && time.oncalldeveloper.$invalid ||
+			oncalleditForm.opco.$dirty && oncalleditForm.opco.$invalid ||
+			oncalleditForm.application.$dirty && oncalleditForm.application.$invalid ||
+			oncalleditForm.issuedescription.$dirty && oncalleditForm.issuedescription.$invalid ||
+			oncalleditForm.solution.$dirty && oncalleditForm.solution.$invalid ||
+			oncalleditForm.followupactionrequired.$dirty && oncalleditForm.followupactionrequired.$invalid">
 			<span class="glyphicon glyphicon-ok"
 				style="font-size: 30px; color: green;"></span>Submit
 		</button>
@@ -111,7 +160,8 @@
 		</button>
 
 		<button type="button" class="btn btn-default btn-sm"
-			ng-click="goback('/')">
+			ng-really-message="Pressing the back button makes you loose entered data on this page. Do you want to proceed?"
+			ng-really-click="goback('/')">
 			<span class="glyphicon glyphicon-hand-left" style="font-size: 30px;"></span>
 			Back
 		</button>

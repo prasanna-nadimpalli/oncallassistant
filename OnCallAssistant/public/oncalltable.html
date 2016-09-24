@@ -17,6 +17,10 @@
 	<!-------------Page Header--------------------------->
 	<header>
 		<h1>Sysco Canada - On Call Tracker</h1>
+		<a href="https://github.com/prasanna-nadimpalli/oncallassistant">
+			<img src="images/GitHub-Mark-Light-120px-plus.png"
+			alt="Link to Source" style="width: 30px; height: 30px; border: 0;">
+		</a>
 	</header>
 	<br>
 	<br>
@@ -58,7 +62,7 @@
 				<th><button type="button" class="btn btn-default btn-sm"
 						ng-click='getnewentryForm("/newentryform")'>
 						<span class="glyphicon glyphicon-plus" style="font-size: 30px;"></span>
-				</button></th>
+					</button></th>
 			</tr>
 			<tr
 				ng-repeat="incidentRecord in oncalls| filter:query | orderBy:sortField:reverse">

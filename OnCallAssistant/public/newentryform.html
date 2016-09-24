@@ -15,93 +15,158 @@
 <body ng-controller="newentryController">
 
 	<!------------- Form Elements --------------------------->
-	<form name="oncallForm">
+	<form name="oncallForm" novalidate>
 		<table>
 			<tr>
-				<td><label>Incident</label></td>
+				<td><label>Incident (numeric only)*</label></td>
 				<td><input type="text" name="incident"
-					ng-model="formData.incident" required></td>
+					ng-model="formData.incident" ng-only-number
+					data-max-decimal-points=0 required></td>
 				<span style="color: red"
 					ng-show="oncallForm.incident.$dirty && oncallForm.incident.$invalid">
 					<span style="color: red"
 					ng-show="oncallForm.incident.$error.required">Incident
 						number is required for on call entry.</span>
-				</span>
+				</span> 
 			</tr>
 
 			<tr>
-				<td><label>Date (MM/DD/YY)</label></td>
+				<td><label>Date (MM/DD/YY)*</label></td>
 				<td><div pickadate="" ng-model="formData.date"></div></td>
+					<span style="color: red"
+					ng-show="oncallForm.date.$dirty && oncallForm.date.$invalid">
+					<span style="color: red"
+					ng-show="oncallForm.date.$error.required">Date is required for on call entry.</span>
+				</span> 
 			</tr>
 
 			<tr>
-				<td><label>Time (HH:MM AM/PM)</label></td>
+				<td><label>Time (HH:MM AM/PM)*</label></td>
 				<td><input type="text" name="time" bs-timepicker
 					ng-model="formData.time" required></td>
+					<span style="color: red"
+					ng-show="oncallForm.time.$dirty && oncallForm.time.$invalid">
+					<span style="color: red"
+					ng-show="oncallForm.time.$error.required">Time is required for on call entry.</span>
+				</span> 
 			</tr>
 
 			<tr>
-				<td><label>On Call Developer</label></td>
+				<td><label>On Call Developer*</label></td>
 				<td><input type="text" name="oncalldeveloper"
 					ng-model="formData.oncalldeveloper"
 					uib-typeahead="oncalld.oncalldeveloper for oncalld in oncalls | unique: 'oncalldeveloper'
 					| filter:$viewValue 					
 					| limitTo:20"
-					required></td>
+					required><span style="color: red"
+					ng-show="formData.oncalldeveloper.$dirty && formData.oncalldeveloper.$invalid">
+						<span style="color: red"
+						ng-show="formData.oncalldeveloper.$error.required">On-call
+							developer is required for on-call entry.</span>
+				</span></td>
 			</tr>
 			<tr>
-				<td><label>OPCO</label></td>
+				<td><label>OPCO*</label></td>
 				<td><input type="text" name="opco" ng-model="formData.opco"
 					uib-typeahead="oncalloc.opco for oncalloc in oncalls | unique: 'opco'
 					| filter:$viewValue 					
-					| limitTo:40"
-					required></td>
+					| limitTo:10"
+					required></td><span style="color: red"
+					ng-show="oncallForm.opco.$dirty && oncallForm.opco.$invalid">
+					<span style="color: red"
+					ng-show="oncallForm.opco.$error.required">OPCO is required for on call entry. Enter 'nil' if not applicable</span>
+				</span> 
 			</tr>
 
 			<tr>
-				<td><label>Application</label></td>
+				<td><label>Application*</label></td>
 				<td><input type="text" name="application"
 					ng-model="formData.application"
 					uib-typeahead="oncallap.application for oncallap in oncalls | unique: 'application'
 					| filter:$viewValue 					
-					| limitTo:50"
-					required></td>
+					| limitTo:10"
+					required></td><span style="color: red"
+					ng-show="oncallForm.application.$dirty && oncallForm.application.$invalid">
+					<span style="color: red"
+					ng-show="oncallForm.application.$error.required">Application is required for on call entry.</span>
+				</span> 
 			</tr>
 
 			<tr>
-				<td><label>Issue Description</label></td>
+				<td><label>Issue Description*</label></td>
 				<td><textarea name="issuedescription"
 						ng-model="formData.issuedescription"
-						style="width: 700px; height: 150px;" required> </textarea></td>
+						style="width: 700px; height: 150px;" required> </textarea><span
+					style="color: red"
+					ng-show="formData.issuedescription.$dirty && formData.issuedescription.$invalid">
+						<span style="color: red"
+						ng-show="formData.issuedescription.$error.required"> Issue
+							Description is required for on call entry.</span>
+				</span></td>
 			</tr>
 
 			<tr>
-				<td><label>Solution</label></td>
+				<td><label>Solution*</label></td>
 				<td><textarea type="text" name="solution"
 						ng-model="formData.solution" style="width: 700px; height: 150px;"
-						required> </textarea></td>
+						required> </textarea><span style="color: red"
+					ng-show="formData.solution.$dirty && formData.solution.$invalid">
+						<span style="color: red"
+						ng-show="formData.solution.$error.required">
+							Solution/Action Taken is required for on call entry.</span>
+				</span></td>
 			</tr>
 
 			<tr>
-				<td><label>Follow-up Action Required</label></td>
+				<td><label>Follow-up Action Required*</label></td>
 				<td><textarea type="text" name="followupactionrequired"
 						ng-model="formData.followupactionrequired"
-						style="width: 700px; height: 150px;" required> </textarea></td>
+						style="width: 700px; height: 150px;" required> </textarea><span
+					style="color: red"
+					ng-show="formData.followupactionrequired.$dirty && formData.followupactionrequired.$invalid">
+						<span style="color: red"
+						ng-show="formData.followupactionrequired.$error.required">
+							Follow-up Action needs mention for on call entry (enter 'nil' if not applicable)</span>
+				</span></td>
 			</tr>
 
 		</table>
 		<button type="button" class="btn btn-default btn-sm"
 			ng-click="createOnCall()"
-			ng-disabled="oncallForm.incident.$dirty && oncallForm.incident.$invalid">
+			ng-disabled="oncallForm.incident.$dirty && oncallForm.incident.$invalid || oncallForm.$pristine ||
+			oncallForm.oncalldeveloper.$dirty && oncallForm.oncalldeveloper.$invalid ||
+			oncallForm.date.$dirty && oncallForm.date.$invalid ||
+			oncallForm.time.$dirty && oncallForm.time.$invalid ||
+			oncallForm.opco.$dirty && oncallForm.opco.$invalid ||
+			oncallForm.application.$dirty && oncallForm.application.$invalid ||
+			oncallForm.issuedescription.$dirty && oncallForm.issuedescription.$invalid ||
+			oncallForm.solution.$dirty && oncallForm.solution.$invalid ||
+			oncallForm.followupactionrequired.$dirty && oncallForm.followupactionrequired.$invalid ||
+			oncallForm.incident.$untouched ||
+			oncallForm.oncalldeveloper.$untouched ||
+			oncallForm.date.$untouched||
+			oncallForm.time.$untouched||
+			oncallForm.opco.$untouched ||
+			oncallForm.application.$untouched||
+			oncallForm.issuedescription.$untouched ||
+			oncallForm.solution.$untouched ||
+			oncallForm.followupactionrequired.$untouched">
 			<span class="glyphicon glyphicon-ok"
 				style="font-size: 30px; color: green;"></span>Submit
 		</button>
 
 		<button type="button" class="btn btn-default btn-sm"
-			ng-really-message="Pressing the refresh button makes you loose all data on this page. Do you want to proceed?"
+			ng-really-message="Pressing the refresh button makes you loose entered data on this page. Do you want to proceed?"
 			ng-really-click="reset()">
 			<span class="glyphicon glyphicon-refresh"
 				style="font-size: 30px; color: blue;"></span>Refresh
+		</button>
+
+		<button type="button" class="btn btn-default btn-sm"
+			ng-really-message="Pressing the back button makes you loose entered data on this page. Do you want to proceed?"
+			ng-really-click="goback('/')">
+			<span class="glyphicon glyphicon-hand-left" style="font-size: 30px;"></span>
+			Back
 		</button>
 
 	</form>

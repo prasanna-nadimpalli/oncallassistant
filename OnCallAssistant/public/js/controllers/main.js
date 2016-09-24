@@ -165,6 +165,10 @@ angular.module('oncallController', ['ngRoute'])
 		$scope.updatestatus = " ";
 	};
 
+	// go back
+	$scope.goback = function(hash) {
+		$location.path(hash);
+	};
 })
 //Angular Router logic
 .config(function($routeProvider) {
