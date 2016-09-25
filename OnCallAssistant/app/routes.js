@@ -34,7 +34,13 @@ module.exports = function(app) {
 			issuedescription:req.body.issuedescription,
 			incident:req.body.incident,
 			solution:req.body.solution,
-			followupactionrequired:req.body.followupactionrequired            
+			followupactionrequired:req.body.followupactionrequired,
+			mcdate:req.body.mcdate,
+			mctime:req.body.mctime,
+			mconcalldeveloper:req.body.mconcalldeveloper,
+			mcissue:req.body.mcissue,
+			mcsolution:req.body.mcsolution
+			
 		}, function(err, oncalls) {
 			if (err)
 				res.send(err);
@@ -79,6 +85,11 @@ module.exports = function(app) {
 		var upincident = req.body.incident;
 		var upsolution = req.body.solution;
 		var upfollowupactionrequired = req.body.followupactionrequired;   
+		var upmcdate = req.body.mcdate;
+		var upmctime = req.body.mctime;
+		var upmconcalldeveloper = req.body.mconcalldeveloper;
+		var upmcissue = req.body.mcissue;
+		var upmcsolution = req.body.mcsolution;   
 
 		OnCall.findOneAndUpdate({_id:req.params.id}, req.body, function (err, oncalls) {
 

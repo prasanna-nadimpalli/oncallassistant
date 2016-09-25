@@ -1,0 +1,115 @@
+<!-----
+		 MESSAGE ALERT NEW ENTRY FORM
+		 										--------->
+<html ng-app="TrackerApp">
+<head>
+
+<meta charset="utf-8">
+<title>Sysco On-Call Assistant</title>
+
+
+<!------------- Link the CSS  --------------------------->
+<link rel="stylesheet" type="text/css" href="mainstyle.css">
+<!-- load our custom css -->
+</head>
+<body ng-controller="mcnewentryController">
+
+	<!------------- Form Elements --------------------------->
+	<form name="oncallForm" novalidate>
+		<table>
+		
+			<tr>
+				<td><label>Date (MM/DD/YY)*</label></td>
+				<td><div pickadate="" ng-model="formData.mcdate"></div></td>
+					<span style="color: red"
+					ng-show="oncallForm.mcdate.$dirty && oncallForm.mcdate.$invalid">
+					<span style="color: red"
+					ng-show="oncallForm.mcdate.$error.required">Date is required for MC entry.</span>
+				</span> 
+			</tr>
+
+			<tr>
+				<td><label>Time (HH:MM AM/PM)*</label></td>
+				<td><input type="text" name="mctime" bs-timepicker
+					ng-model="formData.mctime" required></td>
+					<span style="color: red"
+					ng-show="oncallForm.mctime.$dirty && oncallForm.mctime.$invalid">
+					<span style="color: red"
+					ng-show="oncallForm.mctime.$error.required">Time is required for MC entry.</span>
+				</span> 
+			</tr>
+
+			<tr>
+				<td><label>On Call Developer*</label></td>
+				<td><input type="text" name="mconcalldeveloper"
+					ng-model="formData.mconcalldeveloper"
+					uib-typeahead="oncalld.oncalldeveloper for oncalld in oncalls | unique: 'oncalldeveloper'
+					| filter:$viewValue 					
+					| limitTo:20"
+					required><span style="color: red"
+					ng-show="formData.mconcalldeveloper.$dirty && formData.mconcalldeveloper.$invalid">
+						<span style="color: red"
+						ng-show="formData.mconcalldeveloper.$error.required">On-call
+							developer is required for MC entry.</span>
+				</span></td>
+			</tr>
+			<tr>
+				<td><label>Issue Description*</label></td>
+				<td><textarea name="mcissue"
+						ng-model="formData.mcissue"
+						style="width: 700px; height: 150px;" required> </textarea><span
+					style="color: red"
+					ng-show="formData.mcissue.$dirty && formData.mcissue.$invalid">
+						<span style="color: red"
+						ng-show="formData.mcissue.$error.required"> Issue
+							Description is required for MC entry.</span>
+				</span></td>
+			</tr>
+
+			<tr>
+				<td><label>Solution*</label></td>
+				<td><textarea type="text" name="mcsolution"
+						ng-model="formData.mcsolution" style="width: 700px; height: 150px;"
+						required> </textarea><span style="color: red"
+					ng-show="formData.mcsolution.$dirty && formData.mcsolution.$invalid">
+						<span style="color: red"
+						ng-show="formData.mcsolution.$error.required">
+							Solution/Action Taken is required for MC entry.</span>
+				</span></td>
+			</tr>
+		
+		</table>
+		<button type="button" class="btn btn-default btn-sm"
+			ng-click="createOnCall()"
+			ng-disabled="oncallForm.$pristine ||
+			oncallForm.mconcalldeveloper.$dirty && oncallForm.mconcalldeveloper.$invalid ||
+			oncallForm.mcdate.$dirty && oncallForm.mcdate.$invalid ||
+			oncallForm.mctime.$dirty && oncallForm.mctime.$invalid ||
+			oncallForm.mcissue.$dirty && oncallForm.mcissue.$invalid ||
+			oncallForm.mcsolution.$dirty && oncallForm.mcsolution.$invalid ||
+			oncallForm.mconcalldeveloper.$untouched ||
+			oncallForm.mcdate.$untouched||
+			oncallForm.mctime.$untouched||
+			oncallForm.mcissue.$untouched ||
+			oncallForm.mcsolution.$untouched">
+			<span class="glyphicon glyphicon-ok"
+				style="font-size: 30px; color: green;"></span>Submit
+		</button>
+
+		<button type="button" class="btn btn-default btn-sm"
+			ng-really-message="Pressing the refresh button makes you loose entered data on this page. Do you want to proceed?"
+			ng-really-click="reset()">
+			<span class="glyphicon glyphicon-refresh"
+				style="font-size: 30px; color: blue;"></span>Refresh
+		</button>
+
+		<button type="button" class="btn btn-default btn-sm"
+			ng-really-message="Pressing the back button makes you loose entered data on this page. Do you want to proceed?"
+			ng-really-click="goback('/mclanding')">
+			<span class="glyphicon glyphicon-hand-left" style="font-size: 30px;"></span>
+			Back
+		</button>
+
+	</form>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!-----
+		 ON CALL ENTRIES IN TABULAR FORMAT,
+		 NEW ENTRY COLLAPSIBLE FORM
+		 										--------->
+<html ng-app="TrackerApp">
+<head>
+
+<meta charset="utf-8">
+<title>Sysco On-Call Assistant</title>
+
+<!------------- Link the CSS  --------------------------->
+<link rel="stylesheet" type="text/css" href="mainstyle.css">
+<!-- load our custom css -->
+</head>
+<body ng-controller="mcmainController">
+
+	<!-------------Page Header--------------------------->
+	<header>
+		<h1>Sysco Canada - Message Alert Tracker</h1>
+		<button ng-click='getoncallTable("/")' type="button" class="btn btn-default btn-sm"
+			style="color: blue">
+			<span class="glyphicon glyphicon-earphone"
+				style="font-size: 13px; color: #0082C6;"></span><SPAN
+				STYLE="font-size: 13; color: #0082C6;"> View On Call Entries</SPAN>
+		</button>
+		</a>
+	</header>
+	<br>
+	<br>
+
+	<!-------------Search Box --------------------------->
+	<div class="SearchBox">
+		<input class="box-blue" ng-model="query"
+			placeholder="Type search term or keyword e.g.invoice etc."
+			type="text" size="80" /> <br> <br>
+	</div>
+
+	
+	
+	<!-------------Display table and make it sort-able by Header field --------------------------->
+	<div style="overflow-x: auto;">
+	 <button class="btn btn-link" ng-click="exportToExcel('#table2')">
+        <span class="glyphicon glyphicon-share"></span> Export to Excel
+    </button>
+		<table id='table2'>
+			<tr>
+				<th><a href=""
+					ng-click="sortField = 'mcdate'; reverse = !reverse">Date
+						(MM/DD/YY)</a></th>
+				<th><a href=""
+					ng-click="sortField = 'mctime'; reverse = !reverse">Time</a></th>
+				<th><a href=""
+					ng-click="sortField = 'mconcalldeveloper'; reverse = !reverse">On
+						Call Developer</a></th>
+				<th><a href=""
+					ng-click="sortField = 'mcissue'; reverse = !reverse">Issue
+						Description</a></th>
+				<th><a href=""
+					ng-click="sortField = 'mcsolution'; reverse = !reverse">Solution/Action
+						Taken</a></th>
+				<th><button type="button" class="btn btn-default btn-sm"
+						ng-click='getnewentryForm("/mcnewentryform")'>
+						<span class="glyphicon glyphicon-plus" style="font-size: 30px;"></span>
+					</button></th>
+			</tr>
+			<tr
+				ng-repeat="incidentRecord in oncalls| filter:query | orderBy:sortField:reverse | filter: greaterThan('mcissue', 0) ">
+	
+				<td>{{incidentRecord.mcdate}}</td>
+				<td ng-bind="incidentRecord.mctime | date:'h:mm a'"</td>
+				<td>{{incidentRecord.mconcalldeveloper}}</td>
+				<td>{{incidentRecord.mcissue}}</td>
+				<td>{{incidentRecord.mcsolution}}</td>
+				<td><button type="button" class="btn btn-default btn-sm"
+						ng-click='getOnCall(incidentRecord._id, "/mceditform/"+incidentRecord._id)'>
+						<span class="glyphicon glyphicon-pencil" style="font-size: 30px;"></span>
+					</button></td>
+			</tr>
+		</table>
+	</div>
+
+</body>
+</html>

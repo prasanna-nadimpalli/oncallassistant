@@ -1,19 +1,24 @@
 //js/controllers/main.js
 
 angular.module('oncallController', ['ngRoute'])
-// Controller for landing page
-.controller('mainController', function($scope, $http, $location) {
+//Controller for landing page
+.controller('mainController', function($scope, $http, $location,Excel,$timeout) {
 	$scope.formData = {};
 	$scope.master = {"application" : " ",
 			"date" : " ",
+			"mcdate" : " ",
 			"followupactionrequired" : " ",
 			"incident" : " ",
 			"issuedescription" : " ",
+			"mcissue" : " ",
 			"oncalldeveloper" : " ",
+			"mconcalldeveloper" : " ",
 			"opco" : " ",
 			"solution" : " ",
-			"time" : " "};
-
+			"mcsolution" : " ",
+			"time" : " ",
+			"mctime" : " "};
+	
 	// when landing on the page, get all on-call entries and show them
 	$http.get('/api/oncalls')
 	.success(function(data) {
@@ -36,12 +41,17 @@ angular.module('oncallController', ['ngRoute'])
 			$scope.updatestatus = "Failure in adding incident to On-call tracker";	
 		});
 	};
+
+	// route to desired page (using $location)
+	$scope.getmcTable = function(hash) {
+		$location.path(hash);
+	};
 	
 	// route to desired page (using $location)
 	$scope.getnewentryForm = function(hash) {
 		$location.path(hash);
 	};
-	
+
 	// route to desired page (using $location and _id)
 	$scope.getOnCall = function(id,hash) {
 		$location.path(hash);
@@ -58,6 +68,19 @@ angular.module('oncallController', ['ngRoute'])
 		$scope.editData = angular.copy($scope.master);
 		$scope.updatestatus = " ";
 	};
+	
+	// Export to excel
+	$scope.exportToExcel=function(tableId){ // ex: '#my-table'
+		   var exportHref=Excel.tableToExcel(tableId,'sheet name');
+           $timeout(function(){location.href=exportHref;},100); // trigger download
+    }
+	
+	// custom predicate function for getting only on call entries and not messages
+	$scope.greaterThan = function(prop, val){
+	    return function(item){
+	      return item[prop] > val;
+	    }
+	}
 
 	$scope.reset();
 
@@ -88,7 +111,7 @@ angular.module('oncallController', ['ngRoute'])
 	.error(function(data) {
 		console.log('Error: ' + data);
 	});
-	
+
 	// invoked when edit view is loaded. 
 	$http.get('/api/oncalls/' + $routeParams.id)
 	.success(function(data) {
@@ -120,16 +143,20 @@ angular.module('oncallController', ['ngRoute'])
 	$scope.formData = {};
 	$scope.master = {"application" : " ",
 			"date" : " ",
+			"mcdate" : " ",
 			"followupactionrequired" : " ",
 			"incident" : " ",
 			"issuedescription" : " ",
+			"mcissue" : " ",
 			"oncalldeveloper" : " ",
+			"mconcalldeveloper" : " ",
 			"opco" : " ",
 			"solution" : " ",
-			"time" : " "};
+			"mcsolution" : " ",
+			"time" : " ",
+			"mctime" : " "};
 	
-	
-	// when landing on the page, get all on-call entries and show them
+// when landing on the page, get all on-call entries and show them
 	$http.get('/api/oncalls')
 	.success(function(data) {
 		$scope.oncalls = data;
@@ -185,21 +212,46 @@ angular.module('oncallController', ['ngRoute'])
 		templateUrl: 'newentryform.html',
 		controller: 'newentryController'			
 	})
+	.when("/mclanding", {
+		templateUrl: 'mctable.html',
+		controller: 'mcmainController'			
+	}) // Edit page
+	.when("/mceditform/:id", {
+		templateUrl: 'mceditform.html',
+		controller: 'mceditController'			
+	})
+	.when("/mcnewentryform", {
+		templateUrl: 'mcnewentryform.html',
+		controller: 'mcnewentryController'			
+	})
 	.otherwise({
 		redirectTo:'oncalltable.html'
 	});
 })
-// Throw message for user to confirm if he wants to proceed with deletion
+//Throw message for user to confirm if he wants to proceed with deletion
 .directive('ngReallyClick', [function() {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-            element.bind('click', function() {
-                var message = attrs.ngReallyMessage;
-                if (message && confirm(message)) {
-                    scope.$apply(attrs.ngReallyClick);
-                }
-            });
-        }
-    }
-}]);
+	return {
+		restrict: 'A',
+		link: function(scope, element, attrs) {
+			element.bind('click', function() {
+				var message = attrs.ngReallyMessage;
+				if (message && confirm(message)) {
+					scope.$apply(attrs.ngReallyClick);
+				}
+			});
+		}
+	}
+}]).factory('Excel',function($window){
+	var uri='data:application/vnd.ms-excel;base64,',
+	template='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
+	base64=function(s){return $window.btoa(unescape(encodeURIComponent(s)));},
+	format=function(s,c){return s.replace(/{(\w+)}/g,function(m,p){return c[p];})};
+	return {
+		tableToExcel:function(tableId,worksheetName){
+			var table=$(tableId),
+			ctx={worksheet:worksheetName,table:table.html()},
+			href=uri+base64(format(template,ctx));
+			return href;
+		}
+	};
+});

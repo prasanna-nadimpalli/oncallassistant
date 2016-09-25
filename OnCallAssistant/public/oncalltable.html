@@ -17,13 +17,18 @@
 	<!-------------Page Header--------------------------->
 	<header>
 		<h1>Sysco Canada - On Call Tracker</h1>
-		<a href="https://github.com/prasanna-nadimpalli/oncallassistant">
-			<img src="images/GitHub-Mark-Light-120px-plus.png"
-			alt="Link to Source" style="width: 30px; height: 30px; border: 0;">
+		<button ng-click='getnewentryForm("/mclanding")' type="button" class="btn btn-default btn-sm"
+			style="color: blue">
+			<span class="glyphicon glyphicon-envelope"
+				style="font-size: 13px; color: #0082C6;"></span><SPAN
+				STYLE="font-size: 13; color: #0082C6;"> View Message Center
+				Entries</SPAN>
+		</button>
 		</a>
 	</header>
 	<br>
 	<br>
+
 	<!-------------Search Box --------------------------->
 	<div class="SearchBox">
 		<input class="box-blue" ng-model="query"
@@ -31,10 +36,14 @@
 			type="text" size="80" /> <br> <br>
 	</div>
 
-
+	
+	
 	<!-------------Display table and make it sort-able by Header field --------------------------->
 	<div style="overflow-x: auto;">
-		<table>
+	 <button class="btn btn-link" ng-click="exportToExcel('#table1')">
+        <span class="glyphicon glyphicon-share"></span> Export to Excel
+    </button>
+		<table id='table1'>
 			<tr>
 				<th><a href=""
 					ng-click="sortField ='incident'; reverse = !reverse">Incident
@@ -55,7 +64,8 @@
 					ng-click="sortField = 'issuedescription'; reverse = !reverse">Issue
 						Description</a></th>
 				<th><a href=""
-					ng-click="sortField = 'solution'; reverse = !reverse">Solution</a></th>
+					ng-click="sortField = 'solution'; reverse = !reverse">Solution/Action
+						Taken</a></th>
 				<th><a href=""
 					ng-click="sortField = 'followupactionrequired'; reverse = !reverse">Followup
 						Action Required</a></th>
@@ -65,7 +75,7 @@
 					</button></th>
 			</tr>
 			<tr
-				ng-repeat="incidentRecord in oncalls| filter:query | orderBy:sortField:reverse">
+				ng-repeat="incidentRecord in oncalls| filter:query | orderBy:sortField:reverse | filter: greaterThan('incident', 0) ">
 				<td>{{incidentRecord.incident}}</td>
 				<td>{{incidentRecord.date}}</td>
 				<!-- 				<td>{{incidentRecord.time}}</td> -->
@@ -83,5 +93,6 @@
 			</tr>
 		</table>
 	</div>
+
 </body>
 </html>

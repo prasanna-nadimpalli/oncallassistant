@@ -1,3 +1,4 @@
-// public/js/core.js
+//public/js/core.js
+// Wrapper module that Exposes all modules
 
-angular.module('TrackerApp', ['oncallController', 'oncallService' , 'pickadate','mgcrea.ngStrap','ngOnlyNumberApp','angular.filter','ui.bootstrap']);
+angular.module('TrackerApp', ['oncallController','mcController', 'oncallService' , 'pickadate','mgcrea.ngStrap','ngOnlyNumberApp','angular.filter','ui.bootstrap']);

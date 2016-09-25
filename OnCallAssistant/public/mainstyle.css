@@ -187,3 +187,8 @@ header {
 	max-height: 300px;
 	overflow-y: scroll;
 }
+
+/*--------------  Style for View switch -------------------------*/
+input.right {
+    float: right;
+}
