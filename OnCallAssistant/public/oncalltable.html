@@ -30,11 +30,20 @@
 	<br>
 
 	<!-------------Search Box --------------------------->
-	<div class="SearchBox">
-		<input clear-text class="box-blue" ng-model="query"
-			placeholder="Type search term or keyword e.g.invoice etc."
-			type="search" size="80" />
-</div>
+
+	<input clear-text class="box-blue" ng-model="query"
+		placeholder="Type search term or keyword e.g.invoice etc."
+		type="search" size="80" /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+	&nbsp;
+	<i class="glyphicon glyphicon-calendar" style="font-size: 2em;"></i>
+	<input clear-text type="search" ng-model="fromDate"
+		data-max-date="{{untilDate}}" placeholder="From Date" class="box-blue"
+		bs-datepicker> To
+
+	<input clear-text type="search" ng-model="untilDate"
+		data-min-date="{{fromDate}}" placeholder="Until Date" class="box-blue"
+		bs-datepicker>
+
 
 	<!-------------Display table and make it sort-able by Header field --------------------------->
 	<div style="overflow-x: auto;">
@@ -73,7 +82,9 @@
 					</button></th>
 			</tr>
 			<tr
-				ng-repeat="incidentRecord in oncalls| filter:query | orderBy:sortField:reverse | filter: greaterThan('incident', 0) ">
+				ng-repeat="incidentRecord in oncalls| filter:query | orderBy:sortField:reverse | filter: greaterThan('incident', 0)
+				| ocdateRange:fromDate:untilDate
+				">
 
 				<td>{{incidentRecord.incident}}</td>
 				<td>{{incidentRecord.date}}</td>

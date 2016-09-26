@@ -4,7 +4,7 @@ SearchBox {
 	height: 50px;
 	background-color: #A12A1E;
 	color: White;
-	margin: 0 auto;
+	margin: 0 auto; 
 	text-align: center;
 }
 
@@ -13,8 +13,18 @@ SearchBox {
 	margin: 0 auto;
 }
 
+.SearchBox input[type="text"] {
+	display: block;
+	margin: 0 auto;	
+}
+
 input[type="search"]::-webkit-search-cancel-button {
-    -webkit-appearance: searchfield-cancel-button;
+	-webkit-appearance: searchfield-cancel-button;
+}
+
+.datetextbox {
+	width: 100px;
+	margin: 0 auto;
 }
 
 /*------------------- Colored Content Boxes ----------------*/
@@ -194,5 +204,5 @@ header {
 
 /*--------------  Style for View switch -------------------------*/
 input.right {
-    float: right;
+	float: right;
 }

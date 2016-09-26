@@ -3,6 +3,10 @@
 angular.module('oncallController', ['ngRoute'])
 //Controller for landing page
 .controller('mainController', function($scope, $http, $location,Excel,$timeout) {
+	$scope.fromDate=moment().subtract('days', 30); 
+	
+	$scope.untilDate=moment().add('days', 30); 
+	
 	$scope.formData = {};
 	$scope.master = {"application" : " ",
 			"date" : " ",
@@ -17,7 +21,7 @@ angular.module('oncallController', ['ngRoute'])
 			"mcsolution" : " ",
 			"time" : " ",
 			"mctime" : " "};
-	
+
 	// when landing on the page, get all on-call entries and show them
 	$http.get('/api/oncalls')
 	.success(function(data) {
@@ -45,7 +49,7 @@ angular.module('oncallController', ['ngRoute'])
 	$scope.getmcTable = function(hash) {
 		$location.path(hash);
 	};
-	
+
 	// route to desired page (using $location)
 	$scope.getnewentryForm = function(hash) {
 		$location.path(hash);
@@ -67,18 +71,18 @@ angular.module('oncallController', ['ngRoute'])
 		$scope.editData = angular.copy($scope.master);
 		$scope.updatestatus = " ";
 	};
-	
+
 	// Export to excel
 	$scope.exportToExcel=function(tableId){ // ex: '#my-table'
-		   var exportHref=Excel.tableToExcel(tableId,'sheet name');
-           $timeout(function(){location.href=exportHref;},100); // trigger download
-    }
-	
+		var exportHref=Excel.tableToExcel(tableId,'sheet name');
+		$timeout(function(){location.href=exportHref;},100); // trigger download
+	}
+
 	// custom predicate function for getting only on call entries and not messages
 	$scope.greaterThan = function(prop, val){
-	    return function(item){
-	      return item[prop] > val;
-	    }
+		return function(item){
+			return item[prop] > val;
+		}
 	}
 
 	$scope.reset();
@@ -153,8 +157,8 @@ angular.module('oncallController', ['ngRoute'])
 			"mcsolution" : " ",
 			"time" : " ",
 			"mctime" : " "};
-	
-// when landing on the page, get all on-call entries and show them
+
+//	when landing on the page, get all on-call entries and show them
 	$http.get('/api/oncalls')
 	.success(function(data) {
 		$scope.oncalls = data;
@@ -239,7 +243,9 @@ angular.module('oncallController', ['ngRoute'])
 			});
 		}
 	}
-}]).factory('Excel',function($window){
+}])
+//Export Excel format
+.factory('Excel',function($window){
 	var uri='data:application/vnd.ms-excel;base64,',
 	template='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
 	base64=function(s){return $window.btoa(unescape(encodeURIComponent(s)));},
@@ -252,18 +258,60 @@ angular.module('oncallController', ['ngRoute'])
 			return href;
 		}
 	};
-}).filter('hasSomeValue', [function(){
-    return function(input, param) {
-        var ret = [];
-        if(!angular.isDefined(param)) param = true;
-        angular.forEach(input, function(v){
-            if(angular.isDefined(v.Message)
-               && v.Message) {
-                v.Message = v.Message.replace(/^\s*/g, '');
-                
-                ret.push(v);
-            }
-        });
-        return ret;
-    };
-}]);
+})
+//Check if input has any value
+.filter('hasSomeValue', [function(){
+	return function(input, param) {
+		var ret = [];
+		if(!angular.isDefined(param)) param = true;
+		angular.forEach(input, function(v){
+			if(angular.isDefined(v.Message)
+					&& v.Message) {
+				v.Message = v.Message.replace(/^\s*/g, '');
+
+				ret.push(v);
+			}
+		});
+		return ret;
+	};
+}])
+//Check date range for on call
+.filter('ocdateRange', function() {
+	return function(items, startDate, endDate) {
+		var retArray = [];
+
+		if (!startDate && !endDate) {
+			return items;
+		}
+
+		angular.forEach(items, function(obj){
+			var receivedDate = obj.date;        
+			if(moment(receivedDate).isAfter(startDate) && moment(receivedDate).isBefore(endDate)) {
+				retArray.push(obj);
+			}
+		});
+
+		return retArray;
+
+	}
+})
+//Check date range for message center
+.filter('mcdateRange', function() {
+	return function(items, startDate, endDate) {
+		var retArray = [];
+
+		if (!startDate && !endDate) {
+			return items;
+		}
+
+		angular.forEach(items, function(obj){
+			var receivedDate = obj.mcdate;        
+			if(moment(receivedDate).isAfter(startDate) && moment(receivedDate).isBefore(endDate)) {
+				retArray.push(obj);
+			}
+		});
+
+		return retArray;
+
+	}
+});

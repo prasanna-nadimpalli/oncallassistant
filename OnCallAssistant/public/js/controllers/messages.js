@@ -3,6 +3,10 @@
 angular.module('mcController', ['ngRoute'])
 //Controller for landing page
 .controller('mcmainController', function($scope, $http, $location,Excel,$timeout) {
+	$scope.fromDate=moment().subtract('days', 30); 
+
+	$scope.untilDate=moment().add('days', 30); 
+
 	$scope.formData = {};
 	$scope.master = {"application" : " ",
 			"date" : " ",
