@@ -41,18 +41,49 @@
 
 			<tr>
 				<td><label>On Call Developer*</label></td>
-				<td><input type="text" name="mconcalldeveloper"
-					ng-model="formData.mconcalldeveloper"
+				<td><input type="text" name="oncalldeveloper"
+					ng-model="formData.oncalldeveloper"
 					uib-typeahead="oncalld.oncalldeveloper for oncalld in oncalls | unique: 'oncalldeveloper'
 					| filter:$viewValue 					
 					| limitTo:20"
 					required><span style="color: red"
-					ng-show="formData.mconcalldeveloper.$dirty && formData.mconcalldeveloper.$invalid">
+					ng-show="formData.oncalldeveloper.$dirty && formData.oncalldeveloper.$invalid">
 						<span style="color: red"
-						ng-show="formData.mconcalldeveloper.$error.required">On-call
+						ng-show="formData.oncalldeveloper.$error.required">On-call
 							developer is required for MC entry.</span>
 				</span></td>
 			</tr>
+			
+			<tr>
+				<td><label>OPCO*</label></td>
+				<td><input type="text" name="opco"
+					ng-model="formData.opco"
+					uib-typeahead="oncalld.opco for oncalld in oncalls | unique: 'opco'
+					| filter:$viewValue 					
+					| limitTo:20"
+					required><span style="color: red"
+					ng-show="formData.opco.$dirty && formData.opco.$invalid">
+						<span style="color: red"
+						ng-show="formData.opco.$error.required">OPCO is required for MC entry.</span>
+				</span></td>
+			</tr>
+			<tr>
+			
+			<tr>
+				<td><label>Application*</label></td>
+				<td><input type="text" name="application"
+					ng-model="formData.application"
+					uib-typeahead="oncalld.application for oncalld in oncalls | unique: 'application'
+					| filter:$viewValue 					
+					| limitTo:20"
+					required><span style="color: red"
+					ng-show="formData.application.$dirty && formData.application.$invalid">
+						<span style="color: red"
+						ng-show="formData.application.$error.required">OPCO is required for MC entry.</span>
+				</span></td>
+			</tr>
+			<tr>
+			
 			<tr>
 				<td><label>Issue Description*</label></td>
 				<td><textarea name="mcissue"
@@ -82,12 +113,16 @@
 		<button type="button" class="btn btn-default btn-sm"
 			ng-click="createOnCall()"
 			ng-disabled="oncallForm.$pristine ||
-			oncallForm.mconcalldeveloper.$dirty && oncallForm.mconcalldeveloper.$invalid ||
+			oncallForm.oncalldeveloper.$dirty && oncallForm.oncalldeveloper.$invalid ||
+			oncallForm.opco.$dirty && oncallForm.opco.$invalid ||
+			oncallForm.application.$dirty && oncallForm.application.$invalid ||
 			oncallForm.mcdate.$dirty && oncallForm.mcdate.$invalid ||
 			oncallForm.mctime.$dirty && oncallForm.mctime.$invalid ||
 			oncallForm.mcissue.$dirty && oncallForm.mcissue.$invalid ||
 			oncallForm.mcsolution.$dirty && oncallForm.mcsolution.$invalid ||
-			oncallForm.mconcalldeveloper.$untouched ||
+			oncallForm.oncalldeveloper.$untouched ||
+			oncallForm.opco.$untouched ||
+			oncallForm.application.$untouched ||
 			oncallForm.mcdate.$untouched||
 			oncallForm.mctime.$untouched||
 			oncallForm.mcissue.$untouched ||

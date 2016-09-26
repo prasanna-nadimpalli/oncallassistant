@@ -56,7 +56,7 @@
 				<td><input type="text" name="oncalldeveloper"
 					ng-model="formData.oncalldeveloper"
 					uib-typeahead="oncalld.oncalldeveloper for oncalld in oncalls | unique: 'oncalldeveloper'
-					| filter:$viewValue 					
+					| filter:$viewValue 		
 					| limitTo:20"
 					required><span style="color: red"
 					ng-show="formData.oncalldeveloper.$dirty && formData.oncalldeveloper.$invalid">

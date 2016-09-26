@@ -15,7 +15,6 @@ module.exports = mongoose.model('OnCall', {
 	followupactionrequired:String,
 	mcdate:String,
 	mctime:String,
-	mconcalldeveloper:String,
 	mcissue:String,
 	mcsolution:String
 });

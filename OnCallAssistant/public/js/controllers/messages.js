@@ -11,8 +11,7 @@ angular.module('mcController', ['ngRoute'])
 			"incident" : " ",
 			"issuedescription" : " ",
 			"mcissue" : " ",
-			"oncalldeveloper" : " ",
-			"mconcalldeveloper" : " ",
+			"oncalldeveloper" : " ",	
 			"opco" : " ",
 			"solution" : " ",
 			"mcsolution" : " ",
@@ -46,7 +45,7 @@ angular.module('mcController', ['ngRoute'])
 	$scope.getoncallTable = function(hash) {
 		$location.path(hash);
 	};
-	
+
 	// route to desired page (using $location)
 	$scope.getnewentryForm = function(hash) {
 		$location.path(hash);
@@ -68,20 +67,23 @@ angular.module('mcController', ['ngRoute'])
 		$scope.editData = angular.copy($scope.master);
 		$scope.updatestatus = " ";
 	};
-	
+
 	// Export to excel
 	$scope.exportToExcel=function(tableId){ // ex: '#my-table'
-		   var exportHref=Excel.tableToExcel(tableId,'sheet name');
-           $timeout(function(){location.href=exportHref;},100); // trigger download
-    }
-	
-	// custom predicate function for getting only on call entries and not messages
-	$scope.greaterThan = function(prop, val){
-	    return function(item){
-	      return item[prop] > val;
-	    }
+		var exportHref=Excel.tableToExcel(tableId,'sheet name');
+		$timeout(function(){location.href=exportHref;},100); // trigger download
 	}
 
+	// custom predicate function for getting only on call entries and not messages
+	$scope.greaterThan = function(prop, val){
+		return function(item){
+			return item[prop] > val;
+		}
+	}
+
+	$scope.emptyOrNull = function(oncalls){
+		return !(oncalls.mcissue === null || oncalls.mcissue.trim().length === 0)
+	}
 	$scope.reset();
 
 	$scope.sortField = 'incident';
@@ -96,7 +98,7 @@ angular.module('mcController', ['ngRoute'])
 		$http.put('/api/oncalls/' + id, $scope.oncalleditData)
 		.success(function(data) {			
 			$scope.oncalleditData = data;		
-			$location.path("/"); // once record is deleted go back to main page
+			$location.path("/mclanding"); // once record is updated go back to main page
 		})
 		.error(function(data) {
 			console.log('Error: ' + data);
@@ -126,7 +128,7 @@ angular.module('mcController', ['ngRoute'])
 		$http.delete('/api/oncalls/' + id)
 		.success(function(data) {
 			$scope.oncalleditData = data;
-			$location.path("/"); // once record is deleted go back to main page
+			$location.path("/mclanding"); // once record is deleted go back to main page
 		})
 		.error(function(data) {
 			console.log('Error: ' + data);
@@ -148,8 +150,7 @@ angular.module('mcController', ['ngRoute'])
 			"incident" : " ",
 			"issuedescription" : " ",
 			"mcissue" : " ",
-			"oncalldeveloper" : " ",
-			"mconcalldeveloper" : " ",
+			"oncalldeveloper" : " ",			
 			"opco" : " ",
 			"solution" : " ",
 			"mcsolution" : " ",
@@ -228,30 +229,4 @@ angular.module('mcController', ['ngRoute'])
 		redirectTo:'oncalltable.html'
 	});
 })
-//Throw message for user to confirm if he wants to proceed with deletion
-.directive('ngReallyClick', [function() {
-	return {
-		restrict: 'A',
-		link: function(scope, element, attrs) {
-			element.bind('click', function() {
-				var message = attrs.ngReallyMessage;
-				if (message && confirm(message)) {
-					scope.$apply(attrs.ngReallyClick);
-				}
-			});
-		}
-	}
-}]).factory('Excel',function($window){
-	var uri='data:application/vnd.ms-excel;base64,',
-	template='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
-	base64=function(s){return $window.btoa(unescape(encodeURIComponent(s)));},
-	format=function(s,c){return s.replace(/{(\w+)}/g,function(m,p){return c[p];})};
-	return {
-		tableToExcel:function(tableId,worksheetName){
-			var table=$(tableId),
-			ctx={worksheet:worksheetName,table:table.html()},
-			href=uri+base64(format(template,ctx));
-			return href;
-		}
-	};
-});
+;

@@ -1,3 +1,5 @@
+// Date Picker
+
 ;(function(angular){
   var indexOf = [].indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {

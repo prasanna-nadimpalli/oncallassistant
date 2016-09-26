@@ -17,8 +17,8 @@
 	<!-------------Page Header--------------------------->
 	<header>
 		<h1>Sysco Canada - Message Alert Tracker</h1>
-		<button ng-click='getoncallTable("/")' type="button" class="btn btn-default btn-sm"
-			style="color: blue">
+		<button ng-click='getoncallTable("/")' type="button"
+			class="btn btn-default btn-sm" style="color: blue">
 			<span class="glyphicon glyphicon-earphone"
 				style="font-size: 13px; color: #0082C6;"></span><SPAN
 				STYLE="font-size: 13; color: #0082C6;"> View On Call Entries</SPAN>
@@ -30,18 +30,16 @@
 
 	<!-------------Search Box --------------------------->
 	<div class="SearchBox">
-		<input class="box-blue" ng-model="query"
+			<input clear-text class="box-blue" ng-model="query"
 			placeholder="Type search term or keyword e.g.invoice etc."
-			type="text" size="80" /> <br> <br>
+			type="search" size="80" />
 	</div>
 
-	
-	
 	<!-------------Display table and make it sort-able by Header field --------------------------->
 	<div style="overflow-x: auto;">
-	 <button class="btn btn-link" ng-click="exportToExcel('#table2')">
-        <span class="glyphicon glyphicon-share"></span> Export to Excel
-    </button>
+		<button class="btn btn-link" ng-click="exportToExcel('#table2')">
+			<span class="glyphicon glyphicon-share"></span> Export to Excel
+		</button>
 		<table id='table2'>
 			<tr>
 				<th><a href=""
@@ -50,8 +48,12 @@
 				<th><a href=""
 					ng-click="sortField = 'mctime'; reverse = !reverse">Time</a></th>
 				<th><a href=""
-					ng-click="sortField = 'mconcalldeveloper'; reverse = !reverse">On
+					ng-click="sortField = 'oncalldeveloper'; reverse = !reverse">On
 						Call Developer</a></th>
+				<th><a href=""
+					ng-click="sortField = 'opco'; reverse = !reverse">OPCO</a></th>
+				<th><a href=""
+					ng-click="sortField = 'application'; reverse = !reverse">Application</a></th>
 				<th><a href=""
 					ng-click="sortField = 'mcissue'; reverse = !reverse">Issue
 						Description</a></th>
@@ -64,11 +66,13 @@
 					</button></th>
 			</tr>
 			<tr
-				ng-repeat="incidentRecord in oncalls| filter:query | orderBy:sortField:reverse | filter: greaterThan('mcissue', 0) ">
-	
+				ng-repeat="incidentRecord in oncalls|  filter:query | orderBy:sortField:reverse | filter: greaterThan('mcissue', ' ') ">
+
 				<td>{{incidentRecord.mcdate}}</td>
 				<td ng-bind="incidentRecord.mctime | date:'h:mm a'"</td>
-				<td>{{incidentRecord.mconcalldeveloper}}</td>
+				<td>{{incidentRecord.oncalldeveloper}}</td>
+				<td>{{incidentRecord.opco}}</td>
+				<td>{{incidentRecord.application}}</td>
 				<td>{{incidentRecord.mcissue}}</td>
 				<td>{{incidentRecord.mcsolution}}</td>
 				<td><button type="button" class="btn btn-default btn-sm"

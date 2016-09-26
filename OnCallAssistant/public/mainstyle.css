@@ -8,9 +8,13 @@ SearchBox {
 	text-align: center;
 }
 
-.SearchBox input[type="text"] {
+.SearchBox input[type="search"] {
 	display: block;
 	margin: 0 auto;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
 }
 
 /*------------------- Colored Content Boxes ----------------*/

@@ -37,7 +37,6 @@ module.exports = function(app) {
 			followupactionrequired:req.body.followupactionrequired,
 			mcdate:req.body.mcdate,
 			mctime:req.body.mctime,
-			mconcalldeveloper:req.body.mconcalldeveloper,
 			mcissue:req.body.mcissue,
 			mcsolution:req.body.mcsolution
 			
@@ -86,8 +85,7 @@ module.exports = function(app) {
 		var upsolution = req.body.solution;
 		var upfollowupactionrequired = req.body.followupactionrequired;   
 		var upmcdate = req.body.mcdate;
-		var upmctime = req.body.mctime;
-		var upmconcalldeveloper = req.body.mconcalldeveloper;
+		var upmctime = req.body.mctime;		
 		var upmcissue = req.body.mcissue;
 		var upmcsolution = req.body.mcsolution;   
 

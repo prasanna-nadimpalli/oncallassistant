@@ -17,8 +17,8 @@
 	<!-------------Page Header--------------------------->
 	<header>
 		<h1>Sysco Canada - On Call Tracker</h1>
-		<button ng-click='getnewentryForm("/mclanding")' type="button" class="btn btn-default btn-sm"
-			style="color: blue">
+		<button ng-click='getnewentryForm("/mclanding")' type="button"
+			class="btn btn-default btn-sm" style="color: blue">
 			<span class="glyphicon glyphicon-envelope"
 				style="font-size: 13px; color: #0082C6;"></span><SPAN
 				STYLE="font-size: 13; color: #0082C6;"> View Message Center
@@ -31,18 +31,16 @@
 
 	<!-------------Search Box --------------------------->
 	<div class="SearchBox">
-		<input class="box-blue" ng-model="query"
+		<input clear-text class="box-blue" ng-model="query"
 			placeholder="Type search term or keyword e.g.invoice etc."
-			type="text" size="80" /> <br> <br>
-	</div>
+			type="search" size="80" />
+</div>
 
-	
-	
 	<!-------------Display table and make it sort-able by Header field --------------------------->
 	<div style="overflow-x: auto;">
-	 <button class="btn btn-link" ng-click="exportToExcel('#table1')">
-        <span class="glyphicon glyphicon-share"></span> Export to Excel
-    </button>
+		<button class="btn btn-link" ng-click="exportToExcel('#table1')">
+			<span class="glyphicon glyphicon-share"></span> Export to Excel
+		</button>
 		<table id='table1'>
 			<tr>
 				<th><a href=""
@@ -76,6 +74,7 @@
 			</tr>
 			<tr
 				ng-repeat="incidentRecord in oncalls| filter:query | orderBy:sortField:reverse | filter: greaterThan('incident', 0) ">
+
 				<td>{{incidentRecord.incident}}</td>
 				<td>{{incidentRecord.date}}</td>
 				<!-- 				<td>{{incidentRecord.time}}</td> -->

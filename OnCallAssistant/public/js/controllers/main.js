@@ -11,8 +11,7 @@ angular.module('oncallController', ['ngRoute'])
 			"incident" : " ",
 			"issuedescription" : " ",
 			"mcissue" : " ",
-			"oncalldeveloper" : " ",
-			"mconcalldeveloper" : " ",
+			"oncalldeveloper" : " ",		
 			"opco" : " ",
 			"solution" : " ",
 			"mcsolution" : " ",
@@ -148,8 +147,7 @@ angular.module('oncallController', ['ngRoute'])
 			"incident" : " ",
 			"issuedescription" : " ",
 			"mcissue" : " ",
-			"oncalldeveloper" : " ",
-			"mconcalldeveloper" : " ",
+			"oncalldeveloper" : " ",			
 			"opco" : " ",
 			"solution" : " ",
 			"mcsolution" : " ",
@@ -254,4 +252,18 @@ angular.module('oncallController', ['ngRoute'])
 			return href;
 		}
 	};
-});
+}).filter('hasSomeValue', [function(){
+    return function(input, param) {
+        var ret = [];
+        if(!angular.isDefined(param)) param = true;
+        angular.forEach(input, function(v){
+            if(angular.isDefined(v.Message)
+               && v.Message) {
+                v.Message = v.Message.replace(/^\s*/g, '');
+                
+                ret.push(v);
+            }
+        });
+        return ret;
+    };
+}]);
